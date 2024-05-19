@@ -5,8 +5,8 @@ import java.sql.SQLException;
 public class DatabaseConnectionTest {
     public static void main(String[] args) {
         String url = "jdbc:mysql://localhost:3306/librarydb";
-        String user = "libraryuser";
-        String password = "password";
+        String user = "root";
+        String password = "";
 
         try {
             // Load the MySQL JDBC driver

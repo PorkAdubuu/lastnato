@@ -198,8 +198,8 @@ public class AddBookPanel extends javax.swing.JPanel {
 
         // Database connection parameters
         String url = "jdbc:mysql://localhost:3306/librarydb";
-        String user = "libraryuser";
-        String password = "password";
+        String user = "root";
+        String password = "";
 
         // SQL query to insert a new book
         String sql = "INSERT INTO books (title, isbn, category, author, copyright, publisher, status) "
