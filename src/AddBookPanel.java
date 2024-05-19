@@ -185,49 +185,49 @@ public class AddBookPanel extends javax.swing.JPanel {
 
     private void add_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_btnActionPerformed
         // TODO add your handling code here:
-        // Add book to the database
-        String title = title_txtf.getText();
-        String isbn = isbn_txtf.getText();
-        String category = category_txtf.getText();
-        String author = author_txtf.getText();
-        String copyright = copyright_txtf.getText();
-        String publisher = publisher_txtf.getText();
-        
-        
-        
+            // Add book to the database
+            String title = title_txtf.getText();
+            String isbn = isbn_txtf.getText();
+            String category = category_txtf.getText();
+            String author = author_txtf.getText();
+            String copyright = copyright_txtf.getText();
+            String publisher = publisher_txtf.getText();
 
-        // Database connection parameters
-        String url = "jdbc:mysql://localhost:3306/librarydb";
-        String user = "root";
-        String password = "";
+            // Set status to "available"
+            String status = "available";
 
-        // SQL query to insert a new book
-        String sql = "INSERT INTO books (title, isbn, category, author, copyright, publisher, status) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            // Database connection parameters
+            String url = "jdbc:mysql://localhost:3306/librarydb";
+            String user = "root";
+            String password = "";
 
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // SQL query to insert a new book
+            String sql = "INSERT INTO books (title, isbn, category, author, copyright, publisher, status) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-            // Set parameters
-            pstmt.setString(1, title);
-            pstmt.setString(2, isbn);
-            pstmt.setString(3, category);
-            pstmt.setString(4, author);
-            pstmt.setString(5, copyright);
-            pstmt.setString(6, publisher);
-            
+            try (Connection connection = DriverManager.getConnection(url, user, password);
+                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-            // Execute the insert statement
-            pstmt.executeUpdate();
+                // Set parameters
+                pstmt.setString(1, title);
+                pstmt.setString(2, isbn);
+                pstmt.setString(3, category);
+                pstmt.setString(4, author);
+                pstmt.setString(5, copyright);
+                pstmt.setString(6, publisher);
+                pstmt.setString(7, status); // Set status to "available"
 
-            JOptionPane.showMessageDialog(this, "Book added successfully!");
+                // Execute the insert statement
+                pstmt.executeUpdate();
 
-            // Clear input fields after adding
-            clearFields();
+                JOptionPane.showMessageDialog(this, "Book added successfully!");
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error adding book: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+                // Clear input fields after adding
+                clearFields();
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error adding book: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_add_btnActionPerformed
 
     private void isbn_txtfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isbn_txtfActionPerformed
