@@ -274,8 +274,8 @@ public class BooklistPanel extends javax.swing.JPanel {
 
     private void removeBook(int bookId) {
         String url = "jdbc:mysql://localhost:3306/librarydb";
-        String user = "libraryuser";
-        String password = "password";
+        String user = "root";
+        String password = "";
 
         String deleteQuery = "DELETE FROM books WHERE id = ?";
 
