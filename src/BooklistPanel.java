@@ -2,12 +2,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Vector;
+
   
 
 public class BooklistPanel extends javax.swing.JPanel {
@@ -67,6 +70,8 @@ public class BooklistPanel extends javax.swing.JPanel {
         refresh_btn = new javax.swing.JButton();
         remove_btn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        searchField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1290, 463));
@@ -164,6 +169,16 @@ public class BooklistPanel extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(102, 102, 102));
         jPanel2.setLayout(new java.awt.BorderLayout());
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 330, 300));
+        add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 240, -1));
+
+        jButton1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 80, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -215,8 +230,65 @@ public class BooklistPanel extends javax.swing.JPanel {
         parent.setVisible(false);
     }//GEN-LAST:event_closeMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String query = searchField.getText();
+        searchBooks(query);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     
         //method 
+    
+    
+        //search method
+                private void searchBooks(String query) {
+                // Database connection parameters
+                String url = "jdbc:mysql://localhost:3306/librarydb";
+                String user = "root";
+                String password = "";
+
+                String sql = "SELECT title, isbn, category, author, copyright, publisher, status FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ? OR category LIKE ? OR copyright LIKE ? OR publisher LIKE ?";
+
+
+                try (Connection connection = DriverManager.getConnection(url, user, password);
+                     PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+                    pstmt.setString(1, "%" + query + "%");
+                    pstmt.setString(2, "%" + query + "%");
+                    pstmt.setString(3, "%" + query + "%");
+                    pstmt.setString(4, "%" + query + "%");
+                    pstmt.setString(5, "%" + query + "%");
+                    pstmt.setString(6, "%" + query + "%");
+
+
+                    ResultSet rs = pstmt.executeQuery();
+
+                    // Get metadata to dynamically set column names
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    int columnCount = rsmd.getColumnCount();
+                    Vector<String> columnNames = new Vector<>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        columnNames.add(rsmd.getColumnName(i));
+                    }
+
+                    // Populate data vector
+                    Vector<Vector<Object>> data = new Vector<>();
+                    while (rs.next()) {
+                        Vector<Object> vector = new Vector<>();
+                        for (int i = 1; i <= columnCount; i++) {
+                            vector.add(rs.getObject(i));
+                        }
+                        data.add(vector);
+                    }
+
+                    // Set the model for the result table
+                    jTable1.setModel(new DefaultTableModel(data, columnNames));
+
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, "Error searching books: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
     
         private void loadBooks(String category) {
         DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
@@ -298,6 +370,7 @@ public class BooklistPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane Scrollpane;
     private javax.swing.JLabel close;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -307,5 +380,6 @@ public class BooklistPanel extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton refresh_btn;
     private javax.swing.JButton remove_btn;
+    private javax.swing.JTextField searchField;
     // End of variables declaration//GEN-END:variables
 }
