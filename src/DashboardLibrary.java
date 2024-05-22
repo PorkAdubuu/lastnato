@@ -315,11 +315,10 @@ public class DashboardLibrary extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-
         panel_content.removeAll();
-        /*
+
         // Create a new instance of BooklistPanel
-        BookborrowingPanel bookborrowingPanel = new BookborrowingPanel();
+        BookBorrowingPanel bookborrowingPanel = new BookBorrowingPanel();
 
         // Add BooklistPanel to booklist_content JPanel
         panel_content.add(bookborrowingPanel);
@@ -329,7 +328,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
 
         // Repaint booklist_content JPanel
         panel_content.revalidate();
-        panel_content.repaint();*/
+        panel_content.repaint();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
