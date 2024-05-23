@@ -13,10 +13,10 @@ import java.util.Vector;
 
 public class BookBorrowingPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form BookBorrowingPanel
-     */
-    public BookBorrowingPanel() {
+    private final JPanel panelContent;
+    
+    public BookBorrowingPanel(JPanel panelContent) {
+        this.panelContent = panelContent;
         initComponents();
     }
 
@@ -29,8 +29,8 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        close = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -54,21 +54,22 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1290, 463));
         setPreferredSize(new java.awt.Dimension(1290, 463));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/close.png"))); // NOI18N
-        close.addMouseListener(new java.awt.event.MouseAdapter() {
+        jPanel1.setBackground(new java.awt.Color(70, 134, 242));
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/back.png"))); // NOI18N
+        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeMouseClicked(evt);
+                jLabel15MouseClicked(evt);
             }
         });
-        add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 10, 50, 40));
-
-        jPanel1.setBackground(new java.awt.Color(70, 134, 242));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/booklist-icon.png"))); // NOI18N
 
@@ -81,20 +82,23 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(444, 444, 444)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel15)
+                .addGap(311, 311, 311)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(468, Short.MAX_VALUE))
+                .addContainerGap(517, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel15))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -231,15 +235,15 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Borrower_contact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(21, Short.MAX_VALUE))
+                        .addContainerGap(51, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Book_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(Book_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -248,21 +252,17 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Book_category_comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(29, Short.MAX_VALUE))))
+                        .addContainerGap(59, Short.MAX_VALUE))))
         );
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1250, 320));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1250, 350));
+
+        jButton1.setText("jButton1");
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 440, -1, -1));
+
+        jButton2.setText("jButton2");
+        add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 440, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
-
-    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
-        // TODO add your handling code here:
-
-        setVisible(false);
-
-        // Hide the booklist_content JPanel
-        JPanel parent = (JPanel) this.getParent();
-        parent.setVisible(false);
-    }//GEN-LAST:event_closeMouseClicked
 
     private void Borrower_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Borrower_nameActionPerformed
         // TODO add your handling code here:
@@ -271,6 +271,25 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
     private void Book_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Book_IDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Book_IDActionPerformed
+
+    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
+        // TODO add your handling code here:
+        panelContent.removeAll();
+
+        // Create a new instance of WhosBorrowingPanel and pass panel_content
+        WhosBorrowingPanel whosBorrowingPanel = new WhosBorrowingPanel(panelContent);
+
+        // Add WhosBorrowingPanel to panelContent
+        panelContent.add(whosBorrowingPanel);
+
+        // Make panelContent JPanel visible
+        panelContent.setVisible(true);
+
+        // Repaint and revalidate panelContent JPanel
+        panelContent.revalidate();
+        panelContent.repaint();
+        
+    }//GEN-LAST:event_jLabel15MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -282,13 +301,15 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
     private javax.swing.JTextField Borrower_email;
     private javax.swing.JTextField Borrower_name;
     private javax.swing.JComboBox<String> Borrower_type_comboBox;
-    private javax.swing.JLabel close;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
