@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.List;
+import java.sql.SQLException;
 import java.util.Vector;
+
 
   
 
@@ -210,19 +212,18 @@ public class BooklistPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_refresh_btnActionPerformed
 
     private void remove_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove_btnActionPerformed
-        // TODO add your handling code here:
-            
-        int selectedRow = jTable1.getSelectedRow();
-    if (selectedRow != -1) {
-        // Get the ID of the selected book
-        int bookId = (int) jTable1.getValueAt(selectedRow, 0);
-        // Call the method to remove the book from the database
-        removeBook(bookId);
-        // Refresh the table to reflect the changes
-        fetchBooks();
-    } else {
-        JOptionPane.showMessageDialog(this, "Please select a book to remove.");
-    }
+                // TODO add your handling code here:
+            int selectedRow = jTable1.getSelectedRow();
+            if (selectedRow != -1) {
+                // Get the ID of the selected book
+                int bookId = (int) jTable1.getValueAt(selectedRow, 0);
+                // Call the method to remove the book from the database
+                removeBook(bookId);
+                // Refresh the table to reflect the changes
+                fetchBooks();
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a book to remove.");
+            }
     
 
     }//GEN-LAST:event_remove_btnActionPerformed
@@ -351,23 +352,27 @@ public class BooklistPanel extends javax.swing.JPanel {
         }
     }
 
-    private void removeBook(int bookId) {
-        String url = "jdbc:mysql://localhost:3306/librarydb";
-        String user = "root";
-        String password = "";
+            private void removeBook(int bookId) {
+            String url = "jdbc:mysql://localhost:3306/librarydb";
+            String user = "root";
+            String password = "";
 
-        String deleteQuery = "DELETE FROM books WHERE id = ?";
+            String deleteQuery = "DELETE FROM books WHERE id = ?";
 
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement pstmt = conn.prepareStatement(deleteQuery)) {
-            pstmt.setInt(1, bookId);
-            pstmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Book removed successfully.");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error removing book: " + e.getMessage());
-            e.printStackTrace();
+            try (Connection conn = DriverManager.getConnection(url, user, password);
+                 PreparedStatement pstmt = conn.prepareStatement(deleteQuery)) {
+                pstmt.setInt(1, bookId);
+                int rowsAffected = pstmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "Book removed successfully.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Unable to delete the book because it is currently borrowed by someone.", "Error Removing Book", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Unable to delete the book because it is currently borrowed by someone.", "Error Removing Book", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace(); // Print the stack trace for debugging purposes
+            }
         }
-    }
 
         
         
