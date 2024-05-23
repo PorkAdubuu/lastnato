@@ -65,5 +65,20 @@ INSERT INTO Books (title, isbn, category, author, copyright, publisher, status) 
 ('Calculus: Early Transcendentals', '9780495011668', 'Academic', 'James Stewart', '2007', 'Cengage Learning', 'Available'),
 ('Physics for Scientists and Engineers', '9781337553292', 'Academic', 'Raymond A. Serway', '2018', 'Cengage Learning', 'Available');
 
+-------------------------------------------------------------
+CREATE TABLE student_borrowing (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(255),
+    student_id VARCHAR(50),
+    year_section VARCHAR(50),
+    contact_no VARCHAR(50),
+    book_id INT,
+    book_title VARCHAR(255),
+    book_isbn VARCHAR(50),
+    book_category VARCHAR(50),
+    date_borrowed DATE,
+    due_date DATE,
+    FOREIGN KEY (book_id) REFERENCES books(id)
+);
 
 
