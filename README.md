@@ -41,29 +41,27 @@ CREATE TABLE Books (
 ----------------------------------------------------------------------
 -- Inserting default books into the 'Books' table
 
--- Fiction books
-INSERT INTO Books (title, isbn, category, author, copyright, publisher, status) VALUES
-('The Great Gatsby', '9780743273565', 'Fiction', 'F. Scott Fitzgerald', '1925', 'Charles Scribner\'s Sons', 'Available'),
-('To Kill a Mockingbird', '9780060935467', 'Fiction', 'Harper Lee', '1960', 'J.B. Lippincott & Co.', 'Available'),
-('1984', '9780451524935', 'Fiction', 'George Orwell', '1949', 'Secker & Warburg', 'Available'),
-('Pride and Prejudice', '9781503290563', 'Fiction', 'Jane Austen', '1813', 'T. Egerton', 'Available'),
+INSERT INTO Books (title, isbn, category, author, copyright, publisher, status) VALUES 
+('The Great Gatsby', '9780743273565', 'Fiction', 'F. Scott Fitzgerald', '1925', 'Charles Scribner\'s Sons', 'Available'), 
+('To Kill a Mockingbird', '9780060935467', 'Fiction', 'Harper Lee', '1960', 'J.B. Lippincott & Co.', 'Available'), 
+('1984', '9780451524935', 'Fiction', 'George Orwell', '1949', 'Secker & Warburg', 'Available'), 
+('Pride and Prejudice', '9781503290563', 'Fiction', 'Jane Austen', '1813', 'T. Egerton', 'Available'), 
 ('The Catcher in the Rye', '9780316769488', 'Fiction', 'J.D. Salinger', '1951', 'Little, Brown and Company', 'Available');
 
--- Non-Fiction books
-INSERT INTO Books (title, isbn, category, author, copyright, publisher, status) VALUES
-('Sapiens: A Brief History of Humankind', '9780062316097', 'Non-Fiction', 'Yuval Noah Harari', '2011', 'Harper', 'Available'),
-('Educated', '9780399590504', 'Non-Fiction', 'Tara Westover', '2018', 'Random House', 'Available'),
-('The Immortal Life of Henrietta Lacks', '9781400052189', 'Non-Fiction', 'Rebecca Skloot', '2010', 'Crown Publishing Group', 'Available'),
-('The Wright Brothers', '9781476728759', 'Non-Fiction', 'David McCullough', '2015', 'Simon & Schuster', 'Available'),
+INSERT INTO Books (title, isbn, category, author, copyright, publisher, status) VALUES 
+('Sapiens: A Brief History of Humankind', '9780062316097', 'Non-Fiction', 'Yuval Noah Harari', '2011', 'Harper', 'Available'), 
+('Educated', '9780399590504', 'Non-Fiction', 'Tara Westover', '2018', 'Random House', 'Available'), 
+('The Immortal Life of Henrietta Lacks', '9781400052189', 'Non-Fiction', 'Rebecca Skloot', '2010', 'Crown Publishing Group', 'Available'), 
+('The Wright Brothers', '9781476728759', 'Non-Fiction', 'David McCullough', '2015', 'Simon & Schuster', 'Available'), 
 ('Unbroken', '9780812974492', 'Non-Fiction', 'Laura Hillenbrand', '2010', 'Random House', 'Available');
 
--- Academic books
-INSERT INTO Books (title, isbn, category, author, copyright, publisher, status) VALUES
-('Introduction to Algorithms', '9780262033848', 'Academic', 'Thomas H. Cormen', '2009', 'MIT Press', 'Available'),
-('Artificial Intelligence: A Modern Approach', '9780136042594', 'Academic', 'Stuart Russell', '2010', 'Pearson', 'Available'),
-('The Art of Computer Programming', '9780201896831', 'Academic', 'Donald E. Knuth', '1997', 'Addison-Wesley', 'Available'),
-('Calculus: Early Transcendentals', '9780495011668', 'Academic', 'James Stewart', '2007', 'Cengage Learning', 'Available'),
+INSERT INTO Books (title, isbn, category, author, copyright, publisher, status) VALUES 
+('Introduction to Algorithms', '9780262033848', 'Academic', 'Thomas H. Cormen', '2009', 'MIT Press', 'Available'), 
+('Artificial Intelligence: A Modern Approach', '9780136042594', 'Academic', 'Stuart Russell', '2010', 'Pearson', 'Available'), 
+('The Art of Computer Programming', '9780201896831', 'Academic', 'Donald E. Knuth', '1997', 'Addison-Wesley', 'Available'), 
+('Calculus: Early Transcendentals', '9780495011668', 'Academic', 'James Stewart', '2007', 'Cengage Learning', 'Available'), 
 ('Physics for Scientists and Engineers', '9781337553292', 'Academic', 'Raymond A. Serway', '2018', 'Cengage Learning', 'Available');
+
 
 -------------------------------------------------------------
 CREATE TABLE student_borrowing (
