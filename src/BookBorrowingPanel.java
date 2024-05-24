@@ -97,11 +97,10 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        print_due = new javax.swing.JLabel();
         date_borrowed = new com.toedter.calendar.JDateChooser();
         stdnt_id = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        print_due = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
@@ -208,15 +207,8 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel12.setText("Due Date");
 
-        stdnt_id.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-
-        jLabel13.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel13.setText("Student ID");
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         print_due.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        print_due.setText("jLabel14");
         print_due.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
@@ -225,19 +217,10 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(print_due, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(print_due, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-        );
+        stdnt_id.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel13.setText("Student ID");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -257,11 +240,11 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                             .addComponent(book_title, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(book_id, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
                             .addComponent(jLabel12)
-                            .addComponent(date_borrowed, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(print_due)
+                            .addComponent(date_borrowed, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(134, 134, 134))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -273,10 +256,10 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                             .addComponent(stdnt_name))
                         .addGap(264, 264, 264)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(book_category, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(book_isbn, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(book_isbn, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7)
+                            .addComponent(book_category, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -300,6 +283,19 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                             .addComponent(date_borrowed, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(book_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(book_isbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(book_category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -318,22 +314,8 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(book_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(book_isbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(book_category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51))))
+                                .addComponent(print_due)))
+                        .addContainerGap(51, Short.MAX_VALUE))))
         );
 
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1250, 350));
@@ -454,38 +436,35 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                 }
             }
 
-            
-            private void incrementBookCount(String studentId) {
-            // Increment the count of books borrowed by the student in the database
-            String updateQuery = "UPDATE student SET borrowed_books = borrowed_books + 1 WHERE student_id = ?";
-            try (Connection connection = DriverManager.getConnection(url, user, password);
-                 PreparedStatement pstmt = connection.prepareStatement(updateQuery)) {
-                pstmt.setString(1, studentId);
-                pstmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace(); // Handle the exception appropriately
-            }
-        }
-            
             private boolean canBorrowBook(String studentId) {
-            // Query the database to check how many books the student has borrowed
-            String query = "SELECT COUNT(*) FROM student_borrowing WHERE student_id = ?";
-            try (Connection connection = DriverManager.getConnection(url, user, password);
-                 PreparedStatement pstmt = connection.prepareStatement(query)) {
-                pstmt.setString(1, studentId);
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    if (rs.next()) {
-                        int borrowedBooks = rs.getInt(1);
-                        return borrowedBooks < 2; // Returns true if the student can borrow more books
+                // Query the database to check how many books the student has borrowed
+                String query = "SELECT COUNT(*) FROM student_borrowing WHERE student_id = ?";
+                try (Connection connection = DriverManager.getConnection(url, user, password);
+                     PreparedStatement pstmt = connection.prepareStatement(query)) {
+                    pstmt.setString(1, studentId);
+                    try (ResultSet rs = pstmt.executeQuery()) {
+                        if (rs.next()) {
+                            int borrowedBooks = rs.getInt(1);
+                            return borrowedBooks < 2; // Returns true if the student can borrow more books
+                        }
                     }
+                } catch (SQLException e) {
+                    e.printStackTrace(); // Handle the exception appropriately
                 }
-            } catch (SQLException e) {
-                e.printStackTrace(); // Handle the exception appropriately
+                return false; // Return false by default if an error occurs
             }
-            return false; // Return false by default if an error occurs
-        }
 
-        
+            private void incrementBookCount(String studentId) {
+                // Increment the count of books borrowed by the student in the database
+                String updateQuery = "UPDATE student SET borrowed_books = borrowed_books + 1 WHERE student_id = ?";
+                try (Connection connection = DriverManager.getConnection(url, user, password);
+                     PreparedStatement pstmt = connection.prepareStatement(updateQuery)) {
+                    pstmt.setString(1, studentId);
+                    pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace(); // Handle the exception appropriately
+                }
+            }
             
     //method for due date 
         private void calculateDueDate() {
@@ -501,97 +480,67 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         
         //method for sumbitting 
         private void submitBorrowingDetails() {
-            String studentName = stdnt_name.getText();
-            String studentId = stdnt_id.getText();
-            String yearSection = stdnt_yr_sec.getText();
-            String contactNo = stdnt_contact.getText();
-            int bookId = Integer.parseInt(book_id.getText());
-            String bookTitle = book_title.getText();
-            String bookIsbn = book_isbn.getText();
-            String bookCategory = book_category.getSelectedItem().toString();
-            Date borrowedDate = date_borrowed.getDate();
+                String studentName = stdnt_name.getText();
+                String studentId = stdnt_id.getText();
+                String yearSection = stdnt_yr_sec.getText();
+                String contactNo = stdnt_contact.getText();
+                int bookId = Integer.parseInt(book_id.getText());
+                String bookTitle = book_title.getText();
+                String bookIsbn = book_isbn.getText();
+                String bookCategory = book_category.getSelectedItem().toString();
+                Date borrowedDate = date_borrowed.getDate();
 
-            // Calculate due date
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(borrowedDate);
-            cal.add(Calendar.DAY_OF_YEAR, 3);
-            Date dueDate = cal.getTime();
+                // Calculate due date
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(borrowedDate);
+                cal.add(Calendar.DAY_OF_YEAR, 3);
+                Date dueDate = cal.getTime();
 
-            String url = "jdbc:mysql://localhost:3306/librarydb";
-            String user = "root";
-            String password = "";
+                String url = "jdbc:mysql://localhost:3306/librarydb";
+                String user = "root";
+                String password = "";
 
-            String sql = "INSERT INTO student_borrowing (student_name, student_id, year_section, contact_no, book_id, book_title, book_isbn, book_category, date_borrowed, due_date) "
-                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO student_borrowing (student_name, student_id, year_section, contact_no, book_id, book_title, book_isbn, book_category, date_borrowed, due_date) "
+                           + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            try (Connection connection = DriverManager.getConnection(url, user, password);
-                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                try (Connection connection = DriverManager.getConnection(url, user, password);
+                     PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-                pstmt.setString(1, studentName);
-                pstmt.setString(2, studentId);
-                pstmt.setString(3, yearSection);
-                pstmt.setString(4, contactNo);
-                pstmt.setInt(5, bookId);
-                pstmt.setString(6, bookTitle);
-                pstmt.setString(7, bookIsbn);
-                pstmt.setString(8, bookCategory);
-                pstmt.setDate(9, new java.sql.Date(borrowedDate.getTime()));
-                pstmt.setDate(10, new java.sql.Date(dueDate.getTime()));
+                    pstmt.setString(1, studentName);
+                    pstmt.setString(2, studentId);
+                    pstmt.setString(3, yearSection);
+                    pstmt.setString(4, contactNo);
+                    pstmt.setInt(5, bookId);
+                    pstmt.setString(6, bookTitle);
+                    pstmt.setString(7, bookIsbn);
+                    pstmt.setString(8, bookCategory);
+                    pstmt.setDate(9, new java.sql.Date(borrowedDate.getTime()));
+                    pstmt.setDate(10, new java.sql.Date(dueDate.getTime()));
 
-                // Check if the book is available for borrowing or reserved by the same student
-                String status = bookDAO.getBookStatus(bookId);
-                boolean isBookBorrowed = isBookAlreadyBorrowed(studentId, bookId);
-
-                if (status.equals("Available") || (!isBookBorrowed && status.equals("Reserved"))) {
-                    // Proceed with borrowing
-                    // Check if the student can borrow another book
-                    if (canBorrowBook(studentId)) {
-                        // Increment the count of books borrowed by the student
-                        incrementBookCount(studentId);
-
-                        // Set status based on borrowing date
-                        Date today = new Date();
-                        boolean sameDay = borrowedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                                           .equals(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-                        String borrowingStatus = sameDay ? "Borrowed" : "Reserved";
-
-                        // Update book status
-                        bookDAO.updateBookStatus(bookId, borrowingStatus);
-
+                    // Check if the book is available for borrowing
+                    String status = bookDAO.getBookStatus(bookId);
+                    if (status.equals("Available")) {
+                        // Proceed with borrowing
+                        pstmt.executeUpdate();
                         JOptionPane.showMessageDialog(this, "Borrowing details submitted successfully!");
                     } else {
-                        // Display a message indicating that the student has reached the borrowing limit
-                        JOptionPane.showMessageDialog(this, "This student has reached the maximum borrowing limit (2 books).", "Borrowing Limit Exceeded", JOptionPane.WARNING_MESSAGE);
+                        // Book is not available for borrowing
+                        JOptionPane.showMessageDialog(this, "This book is not available for borrowing.", "Book Unavailable", JOptionPane.WARNING_MESSAGE);
                     }
-                } else {
-                    // Book is not available for borrowing or already reserved by another student
-                    JOptionPane.showMessageDialog(this, "This book is not available for borrowing.", "Book Unavailable", JOptionPane.WARNING_MESSAGE);
+
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, "Error submitting borrowing details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error submitting borrowing details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                // Set status based on borrowing date
+                Date today = new Date();
+                boolean sameDay = borrowedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                                   .equals(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                String status = sameDay ? "Borrowed" : "Reserved";
+
+                // Update book status
+                bookDAO.updateBookStatus(bookId, status);
             }
-        }
-
-        private boolean isBookAlreadyBorrowed(String studentId, int bookId) {
-            String query = "SELECT COUNT(*) FROM student_borrowing WHERE student_id = ? AND book_id = ?";
-            try (Connection connection = DriverManager.getConnection(url, user, password);
-                 PreparedStatement pstmt = connection.prepareStatement(query)) {
-                pstmt.setString(1, studentId);
-                pstmt.setInt(2, bookId);
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    if (rs.next()) {
-                        int count = rs.getInt(1);
-                        return count > 0; // Returns true if the book is already borrowed by the student
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace(); // Handle the exception appropriately
-            }
-            return false; // Return false by default if an error occurs
-        }
-
-
 
 
 
@@ -668,7 +617,6 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel print_due;
     private javax.swing.JTextField stdnt_contact;
     private javax.swing.JTextField stdnt_id;
