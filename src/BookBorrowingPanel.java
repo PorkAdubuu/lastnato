@@ -480,8 +480,15 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         
         //method for sumbitting 
         private void submitBorrowingDetails() {
-                String studentName = stdnt_name.getText();
                 String studentId = stdnt_id.getText();
+
+                // Check if the student has already borrowed two books
+                if (isStudentAtBorrowingLimit(studentId)) {
+                    JOptionPane.showMessageDialog(this, "You have reached the maximum borrowing limit (2 books).", "Borrowing Limit Exceeded", JOptionPane.WARNING_MESSAGE);
+                    return; // Stop the borrowing process if the limit is reached
+                }
+
+                String studentName = stdnt_name.getText();
                 String yearSection = stdnt_yr_sec.getText();
                 String contactNo = stdnt_contact.getText();
                 int bookId = Integer.parseInt(book_id.getText());
@@ -541,6 +548,25 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                 // Update book status
                 bookDAO.updateBookStatus(bookId, status);
             }
+
+            private boolean isStudentAtBorrowingLimit(String studentId) {
+                // Query the database to check how many books the student has borrowed
+                String query = "SELECT COUNT(*) FROM student_borrowing WHERE student_id = ?";
+                try (Connection connection = DriverManager.getConnection(url, user, password);
+                     PreparedStatement pstmt = connection.prepareStatement(query)) {
+                    pstmt.setString(1, studentId);
+                    try (ResultSet rs = pstmt.executeQuery()) {
+                        if (rs.next()) {
+                            int borrowedBooks = rs.getInt(1);
+                            return borrowedBooks >= 2; // Returns true if the student has borrowed two or more books
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace(); // Handle the exception appropriately
+                }
+                return false; // Return false by default if an error occurs
+            }
+
 
 
 
