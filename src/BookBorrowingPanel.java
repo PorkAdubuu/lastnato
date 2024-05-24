@@ -1,3 +1,6 @@
+import java.awt.Color;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -14,6 +17,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+
 
 
 
@@ -25,12 +30,20 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
     private String url = "jdbc:mysql://localhost:3306/librarydb";
     private String user = "root";
     private String password = "";
+    
 
     
     public BookBorrowingPanel(JPanel panelContent) {
         this.panelContent = panelContent;
         initComponents();
         customInitComponents();
+        
+        
+        addPlaceholderStyle(stdnt_name, "Last Name, First Name, M.I");
+        addPlaceholderStyle(stdnt_id, "e.g. a12345678");
+        addPlaceholderStyle(stdnt_section, "BCSAD");
+        addPlaceholderStyle(stdnt_contact, "09123456789");
+        
         
        
        
@@ -82,7 +95,7 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         stdnt_name = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        stdnt_yr_sec = new javax.swing.JTextField();
+        stdnt_section = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         stdnt_contact = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -99,6 +112,8 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         date_borrowed = new com.toedter.calendar.JDateChooser();
         stdnt_id = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        year_combo = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
@@ -164,9 +179,9 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         });
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel5.setText("Year/Section");
+        jLabel5.setText("Year");
 
-        stdnt_yr_sec.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        stdnt_section.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel6.setText("Contact no.");
@@ -221,6 +236,13 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         jLabel13.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel13.setText("Student ID");
 
+        year_combo.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        year_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "HSU", "I", "II", "III", "IV", " " }));
+        year_combo.setToolTipText("");
+
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel14.setText("Section");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -228,11 +250,30 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel13)
-                            .addComponent(stdnt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(264, 264, 264)
+                            .addGap(414, 414, 414))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(stdnt_id)
+                            .addGap(253, 253, 253)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(stdnt_contact)
+                            .addComponent(jLabel3)
+                            .addComponent(stdnt_name)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(year_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(stdnt_section, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(253, 253, 253)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel10)
@@ -246,14 +287,6 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                             .addComponent(date_borrowed, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(134, 134, 134))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6)
-                            .addComponent(stdnt_contact, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
-                            .addComponent(jLabel5)
-                            .addComponent(stdnt_yr_sec, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
-                            .addComponent(jLabel3)
-                            .addComponent(stdnt_name))
-                        .addGap(264, 264, 264)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(book_isbn, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
@@ -303,9 +336,13 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(stdnt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)
-                                .addComponent(jLabel5)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel14))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(stdnt_yr_sec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(stdnt_section, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(year_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -314,7 +351,7 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(print_due)))
-                        .addContainerGap(51, Short.MAX_VALUE))))
+                        .addContainerGap(50, Short.MAX_VALUE))))
         );
 
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1250, 350));
@@ -368,17 +405,45 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         });
     }
     
-    //method for clear button
+    
+    //palceholdermethod
+    public static void addPlaceholderStyle(JTextField textField, String placeholder) {
+        textField.setText(placeholder);
+        textField.setForeground(Color.GRAY);
+
+        textField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textField.getText().equals(placeholder)) {
+                    textField.setText("");
+                    textField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setText(placeholder);
+                    textField.setForeground(Color.GRAY);
+                }
+            }
+        });
+    }
+    
+    
+    
+            
+            //method for clear button
             private void clearFields() {
             // Clear text fields
-            stdnt_name.setText("");
-            stdnt_id.setText("");
-            stdnt_yr_sec.setText("");
-            stdnt_contact.setText("");
+            clearTextField(stdnt_name, "Last Name, First Name, M.I");
+            clearTextField(stdnt_id, "e.g. a12345678");
+            clearTextField(stdnt_section, "BCSAD");
+            clearTextField(stdnt_contact, "09123456789");
+            
             book_id.setText("");
             book_title.setText("");
             book_isbn.setText("");
-
             // Reset combo box
             book_category.setSelectedIndex(0);
 
@@ -387,40 +452,66 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
 
             // Clear due date label
             print_due.setText("");
+            
+            // Inside clearFields method
+            if (date_borrowed != null) {
+                date_borrowed.setDate(null);
+            }
+
         }
+            private void clearTextField(JTextField textField, String placeholder) {
+            textField.setText("");
+            addPlaceholderStyle(textField, placeholder);
+        }
+
+
+
+
 
      
             
             //method for fetching book 
             private void fetchBookDetails() {
-                int bookId = Integer.parseInt(book_id.getText());
-                String url = "jdbc:mysql://localhost:3306/librarydb";
-                String user = "root";
-                String password = "";
+                String bookIdText = book_id.getText();
+                    if (StringUtils.isBlank(bookIdText)) {
+                        // Handle the case where bookIdText is empty
+                        // For example, you might want to set a default value or show an error message
+                    } else {
+                        try {
+                            int bookId = Integer.parseInt(bookIdText);
+                            // Continue processing with the bookId
+                            String url = "jdbc:mysql://localhost:3306/librarydb";
+                            String user = "root";
+                            String password = "";
 
-                String sql = "SELECT title, isbn, category FROM books WHERE id = ?";
+                            String sql = "SELECT title, isbn, category FROM books WHERE id = ?";
 
-                try (Connection connection = DriverManager.getConnection(url, user, password);
-                     PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                            try (Connection connection = DriverManager.getConnection(url, user, password);
+                                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-                    pstmt.setInt(1, bookId);
+                                pstmt.setInt(1, bookId);
 
-                    try (ResultSet rs = pstmt.executeQuery()) {
-                        if (rs.next()) {
-                            book_title.setText(rs.getString("title"));
-                            book_isbn.setText(rs.getString("isbn"));
-                            book_category.setSelectedItem(rs.getString("category"));
-                        } else {
-                            // Clear fields if book ID is not found
-                            book_title.setText("");
-                            book_isbn.setText("");
-                            book_category.setSelectedIndex(-1);
+                                try (ResultSet rs = pstmt.executeQuery()) {
+                                    if (rs.next()) {
+                                        book_title.setText(rs.getString("title"));
+                                        book_isbn.setText(rs.getString("isbn"));
+                                        book_category.setSelectedItem(rs.getString("category"));
+                                    } else {
+                                        // Clear fields if book ID is not found
+                                        book_title.setText("");
+                                        book_isbn.setText("");
+                                        book_category.setSelectedIndex(-1);
+                                    }
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                // Handle SQLException
+                            }
+                        } catch (NumberFormatException ex) {
+                            // Handle the case where bookIdText is not a valid integer
+                            // For example, show an error message or log the error
                         }
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    // Handle SQLException
-                }
             }
             
             
@@ -488,7 +579,7 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                 }
                 
                 // Check if any of the required fields are blank
-                if (studentId.isEmpty() || stdnt_name.getText().isEmpty() || stdnt_yr_sec.getText().isEmpty()
+                if (studentId.isEmpty() || stdnt_name.getText().isEmpty() || stdnt_section.getText().isEmpty()
                         || stdnt_contact.getText().isEmpty() || book_id.getText().isEmpty()
                         || book_title.getText().isEmpty() || book_isbn.getText().isEmpty()
                         || book_category.getSelectedItem().toString().equals("Select Category")
@@ -498,7 +589,8 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                 }
 
                 String studentName = stdnt_name.getText();
-                String yearSection = stdnt_yr_sec.getText();
+                String section = stdnt_section.getText();
+                String year = year_combo.getSelectedItem().toString();
                 String contactNo = stdnt_contact.getText();
                 int bookId = Integer.parseInt(book_id.getText());
                 String bookTitle = book_title.getText();
@@ -516,22 +608,23 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                 String user = "root";
                 String password = "";
 
-                String sql = "INSERT INTO student_borrowing (student_name, student_id, year_section, contact_no, book_id, book_title, book_isbn, book_category, date_borrowed, due_date) "
-                           + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO student_borrowing (student_name, student_id, year, section, contact_no, book_id, book_title, book_isbn, book_category, date_borrowed, due_date) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 try (Connection connection = DriverManager.getConnection(url, user, password);
                      PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
                     pstmt.setString(1, studentName);
                     pstmt.setString(2, studentId);
-                    pstmt.setString(3, yearSection);
-                    pstmt.setString(4, contactNo);
-                    pstmt.setInt(5, bookId);
-                    pstmt.setString(6, bookTitle);
-                    pstmt.setString(7, bookIsbn);
-                    pstmt.setString(8, bookCategory);
-                    pstmt.setDate(9, new java.sql.Date(borrowedDate.getTime()));
-                    pstmt.setDate(10, new java.sql.Date(dueDate.getTime()));
+                    pstmt.setString(3, year);
+                    pstmt.setString(4, section);
+                    pstmt.setString(5, contactNo);
+                    pstmt.setInt(6, bookId);
+                    pstmt.setString(7, bookTitle);
+                    pstmt.setString(8, bookIsbn);
+                    pstmt.setString(9, bookCategory);
+                    pstmt.setDate(10, new java.sql.Date(borrowedDate.getTime()));
+                    pstmt.setDate(11, new java.sql.Date(dueDate.getTime()));
 
                     // Check if the book is available for borrowing
                     String status = bookDAO.getBookStatus(bookId);
@@ -642,6 +735,7 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -656,6 +750,7 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
     private javax.swing.JTextField stdnt_contact;
     private javax.swing.JTextField stdnt_id;
     private javax.swing.JTextField stdnt_name;
-    private javax.swing.JTextField stdnt_yr_sec;
+    private javax.swing.JTextField stdnt_section;
+    private javax.swing.JComboBox<String> year_combo;
     // End of variables declaration//GEN-END:variables
 }
