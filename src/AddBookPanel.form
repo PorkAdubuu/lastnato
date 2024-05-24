@@ -63,13 +63,13 @@
                                   <Component id="jLabel10" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="title_txtf" min="-2" pref="200" max="-2" attributes="0"/>
-                                  <Component id="isbn_txtf" min="-2" pref="200" max="-2" attributes="0"/>
-                                  <Component id="category_txtf" min="-2" pref="200" max="-2" attributes="0"/>
-                                  <Component id="author_txtf" min="-2" pref="200" max="-2" attributes="0"/>
-                                  <Component id="copyright_txtf" min="-2" pref="200" max="-2" attributes="0"/>
-                                  <Component id="publisher_txtf" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="title_txtf" pref="200" max="32767" attributes="0"/>
+                                  <Component id="isbn_txtf" pref="200" max="32767" attributes="0"/>
+                                  <Component id="author_txtf" pref="200" max="32767" attributes="0"/>
+                                  <Component id="copyright_txtf" pref="200" max="32767" attributes="0"/>
+                                  <Component id="publisher_txtf" pref="200" max="32767" attributes="0"/>
+                                  <Component id="category_combo" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -105,7 +105,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="category_txtf" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="category_combo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -124,7 +124,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="add_btn" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="120" max="32767" attributes="0"/>
+                  <EmptySpace pref="118" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -248,13 +248,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="isbn_txtfActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="category_txtf">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Arial" size="12" style="0"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JTextField" name="author_txtf">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -275,6 +268,22 @@
               <Font name="Arial" size="12" style="0"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="category_combo">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="5">
+                <StringItem index="0" value="Select Category"/>
+                <StringItem index="1" value="Fiction"/>
+                <StringItem index="2" value="Non-Fiction"/>
+                <StringItem index="3" value="Academic"/>
+                <StringItem index="4" value=" "/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

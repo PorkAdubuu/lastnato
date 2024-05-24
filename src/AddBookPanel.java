@@ -39,10 +39,10 @@ public class AddBookPanel extends javax.swing.JPanel {
         title_txtf = new javax.swing.JTextField();
         add_btn = new javax.swing.JButton();
         isbn_txtf = new javax.swing.JTextField();
-        category_txtf = new javax.swing.JTextField();
         author_txtf = new javax.swing.JTextField();
         copyright_txtf = new javax.swing.JTextField();
         publisher_txtf = new javax.swing.JTextField();
+        category_combo = new javax.swing.JComboBox<>();
 
         title_txtf2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
@@ -99,13 +99,13 @@ public class AddBookPanel extends javax.swing.JPanel {
             }
         });
 
-        category_txtf.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
         author_txtf.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         copyright_txtf.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         publisher_txtf.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
+        category_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Category", "Fiction", "Non-Fiction", "Academic", " " }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -129,13 +129,13 @@ public class AddBookPanel extends javax.swing.JPanel {
                                     .addComponent(jLabel9))
                                 .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(title_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(isbn_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(category_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(author_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(copyright_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(publisher_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(title_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(isbn_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(author_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(copyright_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(publisher_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(category_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addComponent(addook_ttl)
@@ -161,7 +161,7 @@ public class AddBookPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(category_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(category_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -176,7 +176,7 @@ public class AddBookPanel extends javax.swing.JPanel {
                     .addComponent(publisher_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(add_btn)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
 
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 350));
@@ -184,49 +184,56 @@ public class AddBookPanel extends javax.swing.JPanel {
 
     private void add_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_btnActionPerformed
         // TODO add your handling code here:
-            // Add book to the database
-            String title = title_txtf.getText();
-            String isbn = isbn_txtf.getText();
-            String category = category_txtf.getText();
-            String author = author_txtf.getText();
-            String copyright = copyright_txtf.getText();
-            String publisher = publisher_txtf.getText();
+        // Add book to the database
+        String title = title_txtf.getText();
+        String isbn = isbn_txtf.getText();
+        String category = (String) category_combo.getSelectedItem(); // Get selected category
+        String author = author_txtf.getText();
+        String copyright = copyright_txtf.getText();
+        String publisher = publisher_txtf.getText();
 
-            // Set status to "available"
-            String status = "available";
+        // Check if any of the required fields are blank
+        if (title.isEmpty() || isbn.isEmpty() || author.isEmpty() || copyright.isEmpty()
+                || publisher.isEmpty() || category.equals("Select Category")) {
+            JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stop further execution
+        }
 
-            // Database connection parameters
-            String url = "jdbc:mysql://localhost:3306/librarydb";
-            String user = "root";
-            String password = "";
+        // Set status to "available"
+        String status = "available";
 
-            // SQL query to insert a new book
-            String sql = "INSERT INTO books (title, isbn, category, author, copyright, publisher, status) "
-                       + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        // Database connection parameters
+        String url = "jdbc:mysql://localhost:3306/librarydb";
+        String user = "root";
+        String password = "";
 
-            try (Connection connection = DriverManager.getConnection(url, user, password);
-                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        // SQL query to insert a new book
+        String sql = "INSERT INTO books (title, isbn, category, author, copyright, publisher, status) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-                // Set parameters
-                pstmt.setString(1, title);
-                pstmt.setString(2, isbn);
-                pstmt.setString(3, category);
-                pstmt.setString(4, author);
-                pstmt.setString(5, copyright);
-                pstmt.setString(6, publisher);
-                pstmt.setString(7, status); // Set status to "available"
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-                // Execute the insert statement
-                pstmt.executeUpdate();
+            // Set parameters
+            pstmt.setString(1, title);
+            pstmt.setString(2, isbn);
+            pstmt.setString(3, category);
+            pstmt.setString(4, author);
+            pstmt.setString(5, copyright);
+            pstmt.setString(6, publisher);
+            pstmt.setString(7, status); // Set status to "available"
 
-                JOptionPane.showMessageDialog(this, "Book added successfully!");
+            // Execute the insert statement
+            pstmt.executeUpdate();
 
-                // Clear input fields after adding
-                clearFields();
+            JOptionPane.showMessageDialog(this, "Book added successfully!");
 
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error adding book: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            // Clear input fields after adding
+            clearFields();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error adding book: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_add_btnActionPerformed
 
     private void isbn_txtfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isbn_txtfActionPerformed
@@ -236,7 +243,7 @@ public class AddBookPanel extends javax.swing.JPanel {
         private void clearFields() {
         title_txtf.setText("");
         isbn_txtf.setText("");
-        category_txtf.setText("");
+        category_combo.setSelectedIndex(0);
         author_txtf.setText("");
         copyright_txtf.setText("");
         publisher_txtf.setText("");
@@ -248,7 +255,7 @@ public class AddBookPanel extends javax.swing.JPanel {
     private javax.swing.JLabel addook_ttl;
     private javax.swing.JTextField author_txtf;
     private javax.swing.JLabel book_icon;
-    private javax.swing.JTextField category_txtf;
+    private javax.swing.JComboBox<String> category_combo;
     private javax.swing.JTextField copyright_txtf;
     private javax.swing.JTextField isbn_txtf;
     private javax.swing.JLabel jLabel10;

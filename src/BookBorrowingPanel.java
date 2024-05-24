@@ -32,9 +32,7 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         initComponents();
         customInitComponents();
         
-       book_category.addItem("Fiction");
-       book_category.addItem("Non-Fiction");
-       book_category.addItem("Academic");
+       
        
        book_id.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -179,6 +177,7 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         jLabel7.setText("Book Category");
 
         book_category.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        book_category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Category", "Fiction", "Non-Fiction", "Academic" }));
         book_category.setToolTipText("");
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -486,6 +485,16 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                 if (isStudentAtBorrowingLimit(studentId)) {
                     JOptionPane.showMessageDialog(this, "You have reached the maximum borrowing limit (2 books).", "Borrowing Limit Exceeded", JOptionPane.WARNING_MESSAGE);
                     return; // Stop the borrowing process if the limit is reached
+                }
+                
+                // Check if any of the required fields are blank
+                if (studentId.isEmpty() || stdnt_name.getText().isEmpty() || stdnt_yr_sec.getText().isEmpty()
+                        || stdnt_contact.getText().isEmpty() || book_id.getText().isEmpty()
+                        || book_title.getText().isEmpty() || book_isbn.getText().isEmpty()
+                        || book_category.getSelectedItem().toString().equals("Select Category")
+                        || date_borrowed.getDate() == null) {
+                    JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return; // Stop further execution
                 }
 
                 String studentName = stdnt_name.getText();
