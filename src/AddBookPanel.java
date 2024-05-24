@@ -200,7 +200,7 @@ public class AddBookPanel extends javax.swing.JPanel {
         }
 
         // Set status to "available"
-        String status = "available";
+        String status = "Available";
 
         // Database connection parameters
         String url = "jdbc:mysql://localhost:3306/librarydb";
