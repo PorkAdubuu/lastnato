@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.List;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -175,7 +174,8 @@ public class BooklistPanel extends javax.swing.JPanel {
         });
         add(remove_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 430, 110, -1));
 
-        jPanel2.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel2.setBackground(new java.awt.Color(133, 177, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(new java.awt.BorderLayout());
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 330, 300));
         add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 240, -1));
