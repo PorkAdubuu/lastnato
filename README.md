@@ -66,9 +66,10 @@ INSERT INTO Books (title, isbn, category, author, copyright, publisher, status) 
 -------------------------------------------------------------
 CREATE TABLE student_borrowing (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    student_name VARCHAR(255),
     student_id VARCHAR(50),
-    year_section VARCHAR(50),
+    student_name VARCHAR(255),
+    year VARCHAR(10),
+    section VARCHAR(10),
     contact_no VARCHAR(50),
     book_id INT,
     book_title VARCHAR(255),
@@ -78,5 +79,6 @@ CREATE TABLE student_borrowing (
     due_date DATE,
     FOREIGN KEY (book_id) REFERENCES books(id)
 );
+
 
 
