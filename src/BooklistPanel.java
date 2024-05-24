@@ -249,26 +249,26 @@ public class BooklistPanel extends javax.swing.JPanel {
     
     
         //search method
-                private void searchBooks(String query) {
+        private void searchBooks(String query) {
                 // Database connection parameters
                 String url = "jdbc:mysql://localhost:3306/librarydb";
                 String user = "root";
                 String password = "";
 
-                String sql = "SELECT title, isbn, category, author, copyright, publisher, status FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ? OR category LIKE ? OR copyright LIKE ? OR publisher LIKE ?";
-
+                // Modified SQL query to include the book ID
+                String sql = "SELECT id, title, isbn, category, author, copyright, publisher, status FROM books " +
+                             "WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ? OR category LIKE ? " +
+                             "OR copyright LIKE ? OR publisher LIKE ?";
 
                 try (Connection connection = DriverManager.getConnection(url, user, password);
                      PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-                    pstmt.setString(1, "%" + query + "%");
-                    pstmt.setString(2, "%" + query + "%");
-                    pstmt.setString(3, "%" + query + "%");
-                    pstmt.setString(4, "%" + query + "%");
-                    pstmt.setString(5, "%" + query + "%");
-                    pstmt.setString(6, "%" + query + "%");
+                    // Set parameters for the prepared statement
+                    for (int i = 1; i <= 6; i++) {
+                        pstmt.setString(i, "%" + query + "%");
+                    }
 
-
+                    // Execute the query
                     ResultSet rs = pstmt.executeQuery();
 
                     // Get metadata to dynamically set column names
@@ -296,6 +296,7 @@ public class BooklistPanel extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Error searching books: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
+
 
     
         private void loadBooks(String category) {
