@@ -280,18 +280,18 @@ public class DashboardLibrary extends javax.swing.JFrame {
 
         panel_content.removeAll();
 
-        // Create a new instance of BooklistPanel
-        /*StudentPanel studentPanel = new StudentPanel();
+        // Create a new instance of WhosBorrowingPanel and pass panel_content
+        StudentListPanel StudentlistPanel = new StudentListPanel();
 
-        // Add BooklistPanel to booklist_content JPanel
-        panel_content.add(studentPanel);
+        // Add WhosBorrowingPanel to panel_content JPanel
+        panel_content.add(StudentlistPanel);
 
-        // Make booklist_content JPanel visible
+        // Make panel_content JPanel visible
         panel_content.setVisible(true);
 
-        // Repaint booklist_content JPanel
+        // Repaint and revalidate panel_content JPanel
         panel_content.revalidate();
-        panel_content.repaint();*/
+        panel_content.repaint();
     }//GEN-LAST:event_student_btnActionPerformed
 
     private void teacher_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacher_btnActionPerformed
