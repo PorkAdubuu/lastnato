@@ -35,6 +35,7 @@ public class StudentListPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1290, 463));
@@ -102,7 +103,15 @@ public class StudentListPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1240, 360));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1240, 310));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 400, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
@@ -114,6 +123,14 @@ public class StudentListPanel extends javax.swing.JPanel {
         JPanel parent = (JPanel) this.getParent();
         parent.setVisible(false);
     }//GEN-LAST:event_closeMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Create an instance of your StudentListDAO
+        StudentListDAO dao = new StudentListDAO();
+
+        // Call the method to update the student_list table
+        dao.updateStudentList();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     //methods 
     
@@ -129,6 +146,7 @@ public class StudentListPanel extends javax.swing.JPanel {
         String password = "";
         String query = "SELECT * FROM student_list";
         tableModel.setRowCount(0);
+
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement stmt = connection.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -139,7 +157,7 @@ public class StudentListPanel extends javax.swing.JPanel {
                 String year = rs.getString("year");
                 String section = rs.getString("section");
                 String contactNo = rs.getString("contact_no");
-                int bookBorrowedQty = rs.getInt("book_borrowed_qty");
+                int bookBorrowedQty = rs.getInt("borrowed_qty");
 
                 tableModel.addRow(new Object[]{studentId, studentName, year, section, contactNo, bookBorrowedQty});
             }
@@ -151,6 +169,7 @@ public class StudentListPanel extends javax.swing.JPanel {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel close;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
