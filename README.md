@@ -80,5 +80,15 @@ CREATE TABLE student_borrowing (
     FOREIGN KEY (book_id) REFERENCES books(id)
 );
 
+for student list table organized: 
+
+CREATE TABLE student_list (
+    student_id VARCHAR(50) PRIMARY KEY,
+    student_name VARCHAR(100),
+    year VARCHAR(20),
+    section VARCHAR(50),
+    contact_no VARCHAR(50),
+    book_borrowed_qty INT
+);
 
 
