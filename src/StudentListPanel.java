@@ -1,11 +1,16 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 public class StudentListPanel extends javax.swing.JPanel {
@@ -36,6 +41,7 @@ public class StudentListPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         refresh_Btn = new javax.swing.JButton();
+        print_btn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1290, 463));
@@ -105,13 +111,21 @@ public class StudentListPanel extends javax.swing.JPanel {
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1240, 310));
 
-        refresh_Btn.setText("jButton1");
+        refresh_Btn.setText("Refresh");
         refresh_Btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refresh_BtnActionPerformed(evt);
             }
         });
-        add(refresh_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 410, -1, -1));
+        add(refresh_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 410, -1, -1));
+
+        print_btn.setText("Print");
+        print_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                print_btnActionPerformed(evt);
+            }
+        });
+        add(print_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 410, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
@@ -130,9 +144,52 @@ public class StudentListPanel extends javax.swing.JPanel {
         studentListDAO.updateStudentList();
     }//GEN-LAST:event_refresh_BtnActionPerformed
 
+    private void print_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_print_btnActionPerformed
+        // TODO add your handling code here:
+        
+        exportToExcel();
+    }//GEN-LAST:event_print_btnActionPerformed
+
     //methods 
     
-     
+     // Method to export student list to Excel
+    private void exportToExcel() {
+        String url = "jdbc:mysql://localhost:3306/librarydb";
+        String user = "root";
+        String password = "";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student_list");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("Student List");
+
+            int rowNum = 0;
+            while (resultSet.next()) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(resultSet.getString("student_id"));
+                row.createCell(1).setCellValue(resultSet.getString("student_name"));
+                row.createCell(2).setCellValue(resultSet.getString("year"));
+                row.createCell(3).setCellValue(resultSet.getString("section"));
+                row.createCell(4).setCellValue(resultSet.getString("contact_no"));
+                row.createCell(5).setCellValue(resultSet.getInt("borrowed_qty"));
+            }
+
+            // Write the output to a file
+            try (FileOutputStream fileOut = new FileOutputStream("student_list.xlsx")) {
+                workbook.write(fileOut);
+            }
+
+            // Display a success message
+            JOptionPane.showMessageDialog(null, "Student list exported to Excel successfully!");
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            // Display an error message if export fails
+            JOptionPane.showMessageDialog(null, "Error exporting student list to Excel: " + e.getMessage());
+        }
+    }
     
     
     // Custom method to initialize additional components
@@ -175,6 +232,7 @@ public class StudentListPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton print_btn;
     private javax.swing.JButton refresh_Btn;
     // End of variables declaration//GEN-END:variables
 }
