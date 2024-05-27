@@ -102,6 +102,11 @@ public class WhosBorrowingPanel extends javax.swing.JPanel {
 
         teacher_borrower.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/teacher.png"))); // NOI18N
         teacher_borrower.setText("jLabel2");
+        teacher_borrower.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                teacher_borrowerMouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel5.setText("Student");
@@ -172,6 +177,24 @@ public class WhosBorrowingPanel extends javax.swing.JPanel {
         panelContent.revalidate();
         panelContent.repaint();
     }//GEN-LAST:event_student_borrowerMouseClicked
+
+    private void teacher_borrowerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_teacher_borrowerMouseClicked
+        // TODO add your handling code here:
+        panelContent.removeAll();
+
+        // Create a new instance of BookBorrowingPanel and pass panel_content
+        TeacherBorrowingPanel teacherBorrowingPanel = new TeacherBorrowingPanel(panelContent);
+
+        // Add BookBorrowingPanel to panelContent
+        panelContent.add(teacherBorrowingPanel);
+
+        // Make panelContent JPanel visible
+        panelContent.setVisible(true);
+
+        // Repaint and revalidate panelContent JPanel
+        panelContent.revalidate();
+        panelContent.repaint();
+    }//GEN-LAST:event_teacher_borrowerMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
