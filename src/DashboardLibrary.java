@@ -298,19 +298,19 @@ public class DashboardLibrary extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         panel_content.removeAll();
-        /*
-        // Create a new instance of BooklistPanel
-        TeacherPanel teacherPanel = new TeacherPanel();
 
-        // Add BooklistPanel to booklist_content JPanel
-        panel_content.add(teacherPanel);
+        // Create a new instance of WhosBorrowingPanel and pass panel_content
+        TeacherListPanel teacherListPanel = new TeacherListPanel();
 
-        // Make booklist_content JPanel visible
+        // Add WhosBorrowingPanel to panel_content JPanel
+        panel_content.add(teacherListPanel);
+
+        // Make panel_content JPanel visible
         panel_content.setVisible(true);
 
-        // Repaint booklist_content JPanel
+        // Repaint and revalidate panel_content JPanel
         panel_content.revalidate();
-        panel_content.repaint();*/
+        panel_content.repaint();
     }//GEN-LAST:event_teacher_btnActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

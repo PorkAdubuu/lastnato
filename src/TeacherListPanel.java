@@ -16,17 +16,16 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.util.List;
 
-
-public class StudentListPanel extends javax.swing.JPanel {
+public class TeacherListPanel extends javax.swing.JPanel {
 
     private JTable studentTable;
     private DefaultTableModel tableModel;
     
-    public StudentListPanel() {
+    public TeacherListPanel() {
         initComponents();
         
-         initCustomComponents();
-         loadStudentList();
+        initCustomComponents();
+         loadTeacherList();
     }
 
     /**
@@ -44,10 +43,10 @@ public class StudentListPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        refresh_Btn = new javax.swing.JButton();
-        print_btn = new javax.swing.JButton();
         search_btn = new javax.swing.JButton();
         search_txtf = new javax.swing.JTextField();
+        refresh_Btn = new javax.swing.JButton();
+        print_btn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1290, 463));
@@ -68,7 +67,7 @@ public class StudentListPanel extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Student List");
+        jLabel1.setText("Teacher List");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -79,7 +78,7 @@ public class StudentListPanel extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(529, Short.MAX_VALUE))
+                .addContainerGap(521, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,17 +95,17 @@ public class StudentListPanel extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Student ID", "Name", "Year", "Section", "Contact", "Book borrowed Qty"
+                "Employer ID", "Name", "Department", "Contact", "Book borrowed Qty"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false
+                true, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -121,6 +120,15 @@ public class StudentListPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTable1);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 1250, 270));
+
+        search_btn.setText("Search");
+        search_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_btnActionPerformed(evt);
+            }
+        });
+        add(search_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+        add(search_txtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 220, -1));
 
         refresh_Btn.setText("Refresh");
         refresh_Btn.addActionListener(new java.awt.event.ActionListener() {
@@ -137,17 +145,8 @@ public class StudentListPanel extends javax.swing.JPanel {
             }
         });
         add(print_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 410, -1, -1));
-
-        search_btn.setText("Search");
-        search_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                search_btnActionPerformed(evt);
-            }
-        });
-        add(search_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
-        add(search_txtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 220, -1));
     }// </editor-fold>//GEN-END:initComponents
-        
+
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
         // TODO add your handling code here:
 
@@ -158,44 +157,45 @@ public class StudentListPanel extends javax.swing.JPanel {
         parent.setVisible(false);
     }//GEN-LAST:event_closeMouseClicked
 
-    private void refresh_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refresh_BtnActionPerformed
-        // TODO add your handling code here:
-        StudentListDAO studentListDAO = new StudentListDAO();
-        studentListDAO.updateStudentList();
-        loadStudentList();
-    }//GEN-LAST:event_refresh_BtnActionPerformed
-
-    private void print_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_print_btnActionPerformed
-        // TODO add your handling code here:
-        
-        exportToExcel();
-    }//GEN-LAST:event_print_btnActionPerformed
-
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        
+
         int row = jTable1.rowAtPoint(evt.getPoint());
         if (row >= 0) {
             String studentId = tableModel.getValueAt(row, 0).toString();
             copyToClipboard(studentId);
-            displayStudentBorrowingDetails(row);
+            displayTeacherBorrowingDetails(row);
         }
-    
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
         // TODO add your handling code here:
         String searchTerm = search_txtf.getText().trim();
-        searchStudents(searchTerm);
+        searchTeachers(searchTerm);
     }//GEN-LAST:event_search_btnActionPerformed
 
+    private void refresh_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refresh_BtnActionPerformed
+        // TODO add your handling code here:
+        StudentListDAO studentListDAO = new StudentListDAO();
+        studentListDAO.updateStudentList();
+        loadTeacherList();
+    }//GEN-LAST:event_refresh_BtnActionPerformed
+
+    private void print_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_print_btnActionPerformed
+        // TODO add your handling code here:
+
+        exportToExcel();
+    }//GEN-LAST:event_print_btnActionPerformed
+
+    
     //methods 
     
-    private void searchStudents(String searchTerm) {
+    private void searchTeachers(String searchTerm) {
     String url = "jdbc:mysql://localhost:3306/librarydb";
     String user = "root";
     String password = "";
-    String query = "SELECT * FROM student_list WHERE student_id LIKE ? OR student_name LIKE ? OR year LIKE ? OR section LIKE ? OR contact_no LIKE ?";
+    String query = "SELECT * FROM teacher_list WHERE employers_id LIKE ? OR teachers_name LIKE ? OR department LIKE ? OR contact_no LIKE ?";
 
     tableModel.setRowCount(0);
 
@@ -212,14 +212,13 @@ public class StudentListPanel extends javax.swing.JPanel {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            String studentId = rs.getString("student_id");
-            String studentName = rs.getString("student_name");
-            String year = rs.getString("year");
-            String section = rs.getString("section");
+            String employersId = rs.getString("employers_id");
+            String TeachersName = rs.getString("teachers_name");
+            String department = rs.getString("department");
             String contactNo = rs.getString("contact_no");
             int bookBorrowedQty = rs.getInt("borrowed_qty");
 
-            tableModel.addRow(new Object[]{studentId, studentName, year, section, contactNo, bookBorrowedQty});
+            tableModel.addRow(new Object[]{employersId, TeachersName, department, contactNo, bookBorrowedQty});
         }
 
         } catch (SQLException e) {
@@ -227,30 +226,25 @@ public class StudentListPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error searching students: " + e.getMessage());
         }
     }
-
     
-    
-    
-    
-    private void copyToClipboard(String studentId) {
-        StringSelection stringSelection = new StringSelection(studentId);
+    private void copyToClipboard(String employersId) {
+        StringSelection stringSelection = new StringSelection(employersId);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
         
     }
     
-    
-    private void displayStudentBorrowingDetails(int rowIndex) {
-        String studentId = tableModel.getValueAt(rowIndex, 0).toString();
+    private void displayTeacherBorrowingDetails(int rowIndex) {
+        String employersId = tableModel.getValueAt(rowIndex, 0).toString();
 
         // Query the database for borrowing details
-        List<String[]> borrowedBooks = getBorrowedBooks(studentId);
+        List<String[]> borrowedBooks = getBorrowedBooks(employersId);
 
         // Display the details in a new dialog
         JDialog dialog = new JDialog((Frame) null, "Borrowing Details", true);
         dialog.setLayout(new BorderLayout());
 
-        String[] columnNames = {"Book ID", "Book Title", "ISBN", "Category", "Borrow Date", "Return Date"};
+        String[] columnNames = {"Book ID", "Book Title", "ISBN", "Category", "Borrow Date"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
         for (String[] book : borrowedBooks) {
@@ -263,29 +257,28 @@ public class StudentListPanel extends javax.swing.JPanel {
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
-
-    private List<String[]> getBorrowedBooks(String studentId) {
+    
+    private List<String[]> getBorrowedBooks(String employersId) {
         List<String[]> books = new ArrayList<>();
         String url = "jdbc:mysql://localhost:3306/librarydb";
         String user = "root";
         String password = "";
-        String query = "SELECT book_id, book_title, book_isbn, book_category, date_borrowed, due_date FROM student_borrowing WHERE student_id = ?";
+        String query = "SELECT book_id, book_title, book_isbn, book_category, date_borrowed FROM teacher_borrowing WHERE employers_id = ?";
 
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setString(1, studentId);
+            stmt.setString(1, employersId);
             ResultSet resultSet = stmt.executeQuery();
 
             while (resultSet.next()) {
-                String bookId = resultSet.getString("book_id");
-                String bookTitle = resultSet.getString("book_title");
-                String bookIsbn = resultSet.getString("book_isbn");
-                String bookCategory = resultSet.getString("book_category");
-                String borrowDate = resultSet.getString("date_borrowed");
-                String dueDate = resultSet.getString("due_date");
+            String bookId = resultSet.getString("book_id");
+            String bookTitle = resultSet.getString("book_title");
+            String bookIsbn = resultSet.getString("book_isbn");
+            String bookCategory = resultSet.getString("book_category");
+            String borrowDate = resultSet.getString("date_borrowed");
 
-                books.add(new String[]{bookId, bookTitle, bookIsbn, bookCategory, borrowDate, dueDate});
+            books.add(new String[]{bookId, bookTitle, bookIsbn, bookCategory, borrowDate});
             }
 
         } catch (SQLException e) {
@@ -295,59 +288,53 @@ public class StudentListPanel extends javax.swing.JPanel {
 
         return books;
     }
-
     
-    
-    
-     // Method to export student list to Excel
+    // Method to export teacher list to Excel
     private void exportToExcel() {
         String url = "jdbc:mysql://localhost:3306/librarydb";
         String user = "root";
         String password = "";
 
         try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student_list");
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher_list");
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet sheet = workbook.createSheet("Student List");
+            XSSFSheet sheet = workbook.createSheet("Teacher List");
 
             // Create the header row
             Row headerRow = sheet.createRow(0);
-            headerRow.createCell(0).setCellValue("Student ID");
+            headerRow.createCell(0).setCellValue("Employer ID");
             headerRow.createCell(1).setCellValue("Name");
-            headerRow.createCell(2).setCellValue("Year");
-            headerRow.createCell(3).setCellValue("Section");
-            headerRow.createCell(4).setCellValue("Contact");
-            headerRow.createCell(5).setCellValue("Borrowed Books");
+            headerRow.createCell(2).setCellValue("Department");
+            headerRow.createCell(3).setCellValue("Contact");
+            headerRow.createCell(4).setCellValue("Borrowed Books");
 
             // Create the data rows
             int rowNum = 1;
             while (resultSet.next()) {
                 Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(resultSet.getString("student_id"));
-                row.createCell(1).setCellValue(resultSet.getString("student_name"));
-                row.createCell(2).setCellValue(resultSet.getString("year"));
-                row.createCell(3).setCellValue(resultSet.getString("section"));
-                row.createCell(4).setCellValue(resultSet.getString("contact_no"));
-                row.createCell(5).setCellValue(resultSet.getInt("borrowed_qty"));
+                row.createCell(0).setCellValue(resultSet.getString("employers_id"));
+                row.createCell(1).setCellValue(resultSet.getString("teachers_name"));
+                row.createCell(2).setCellValue(resultSet.getString("department"));
+                row.createCell(3).setCellValue(resultSet.getString("contact_no"));
+                row.createCell(4).setCellValue(resultSet.getInt("borrowed_qty"));
             }
 
             // Write the output to a file
-            try (FileOutputStream fileOut = new FileOutputStream("student_list.xlsx")) {
+            try (FileOutputStream fileOut = new FileOutputStream("teacher_list.xlsx")) {
                 workbook.write(fileOut);
             }
 
             // Display a success message
-            JOptionPane.showMessageDialog(null, "Student list exported to Excel successfully!");
+            JOptionPane.showMessageDialog(null, "Teacher list exported to Excel successfully!");
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
             // Display an error message if export fails
-            JOptionPane.showMessageDialog(null, "Error exporting student list to Excel: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error exporting teacher list to Excel: " + e.getMessage());
         }
     }
-    
     
     // Custom method to initialize additional components
     private void initCustomComponents() {
@@ -355,11 +342,11 @@ public class StudentListPanel extends javax.swing.JPanel {
         tableModel = (DefaultTableModel) jTable1.getModel();
     }
     
-    private void loadStudentList() {
+    private void loadTeacherList() {
         String url = "jdbc:mysql://localhost:3306/librarydb";
         String user = "root";
         String password = "";
-        String query = "SELECT * FROM student_list";
+        String query = "SELECT * FROM teacher_list";
         tableModel.setRowCount(0);
 
         try (Connection connection = DriverManager.getConnection(url, user, password);
@@ -367,14 +354,13 @@ public class StudentListPanel extends javax.swing.JPanel {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                String studentId = rs.getString("student_id");
-                String studentName = rs.getString("student_name");
-                String year = rs.getString("year");
-                String section = rs.getString("section");
+                String studentId = rs.getString("employers_id");
+                String studentName = rs.getString("teachers_name");
+                String year = rs.getString("department");
                 String contactNo = rs.getString("contact_no");
                 int bookBorrowedQty = rs.getInt("borrowed_qty");
 
-                tableModel.addRow(new Object[]{studentId, studentName, year, section, contactNo, bookBorrowedQty});
+                tableModel.addRow(new Object[]{studentId, studentName, year, contactNo, bookBorrowedQty});
             }
 
         } catch (SQLException e) {
@@ -382,6 +368,15 @@ public class StudentListPanel extends javax.swing.JPanel {
         }
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel close;
     private javax.swing.JLabel jLabel1;
