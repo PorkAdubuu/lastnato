@@ -144,7 +144,7 @@ public class StudentListPanel extends javax.swing.JPanel {
                 search_btnActionPerformed(evt);
             }
         });
-        add(search_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 20));
+        add(search_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
         add(search_txtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 220, -1));
     }// </editor-fold>//GEN-END:initComponents
         
