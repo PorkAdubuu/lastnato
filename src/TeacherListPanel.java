@@ -18,7 +18,7 @@ import java.util.List;
 
 public class TeacherListPanel extends javax.swing.JPanel {
 
-    private JTable studentTable;
+    private JTable teacherTable;
     private DefaultTableModel tableModel;
     
     public TeacherListPanel() {
@@ -162,8 +162,8 @@ public class TeacherListPanel extends javax.swing.JPanel {
 
         int row = jTable1.rowAtPoint(evt.getPoint());
         if (row >= 0) {
-            String studentId = tableModel.getValueAt(row, 0).toString();
-            copyToClipboard(studentId);
+            String teachersId = tableModel.getValueAt(row, 0).toString();
+            copyToClipboard(teachersId);
             displayTeacherBorrowingDetails(row);
         }
 
@@ -177,14 +177,14 @@ public class TeacherListPanel extends javax.swing.JPanel {
 
     private void refresh_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refresh_BtnActionPerformed
         // TODO add your handling code here:
-        StudentListDAO studentListDAO = new StudentListDAO();
-        studentListDAO.updateStudentList();
+        TeacherListDAO teacherListDAO = new TeacherListDAO();
+        teacherListDAO.updateTeacherList();
         loadTeacherList();
     }//GEN-LAST:event_refresh_BtnActionPerformed
 
     private void print_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_print_btnActionPerformed
         // TODO add your handling code here:
-
+        
         exportToExcel();
     }//GEN-LAST:event_print_btnActionPerformed
 
@@ -223,7 +223,7 @@ public class TeacherListPanel extends javax.swing.JPanel {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error searching students: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error searching teachers: " + e.getMessage());
         }
     }
     
@@ -354,13 +354,13 @@ public class TeacherListPanel extends javax.swing.JPanel {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                String studentId = rs.getString("employers_id");
-                String studentName = rs.getString("teachers_name");
-                String year = rs.getString("department");
+                String employersId = rs.getString("employers_id");
+                String teachersName = rs.getString("teachers_name");
+                String department = rs.getString("department");
                 String contactNo = rs.getString("contact_no");
                 int bookBorrowedQty = rs.getInt("borrowed_qty");
 
-                tableModel.addRow(new Object[]{studentId, studentName, year, contactNo, bookBorrowedQty});
+                tableModel.addRow(new Object[]{employersId, teachersName, department, contactNo, bookBorrowedQty});
             }
 
         } catch (SQLException e) {
