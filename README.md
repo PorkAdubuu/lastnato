@@ -105,6 +105,16 @@ CREATE TABLE student_list (
     borrowed_qty INT
 );
 
+for teacher list table organized: 
+
+CREATE TABLE teachers_list (
+    employers_id VARCHAR(50) PRIMARY KEY,
+    teachers_name VARCHAR(255),
+    department VARCHAR(255),
+    contact_no VARCHAR(50),
+    borrowed_qty INT
+);
+
 
 
 
