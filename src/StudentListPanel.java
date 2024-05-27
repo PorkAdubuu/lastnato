@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,9 +10,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.util.List;
 
 
 public class StudentListPanel extends javax.swing.JPanel {
@@ -42,6 +46,8 @@ public class StudentListPanel extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         refresh_Btn = new javax.swing.JButton();
         print_btn = new javax.swing.JButton();
+        search_btn = new javax.swing.JButton();
+        search_txtf = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1290, 463));
@@ -100,16 +106,21 @@ public class StudentListPanel extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                true, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1250, 310));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 1250, 270));
 
         refresh_Btn.setText("Refresh");
         refresh_Btn.addActionListener(new java.awt.event.ActionListener() {
@@ -126,8 +137,17 @@ public class StudentListPanel extends javax.swing.JPanel {
             }
         });
         add(print_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 410, -1, -1));
-    }// </editor-fold>//GEN-END:initComponents
 
+        search_btn.setText("Search");
+        search_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_btnActionPerformed(evt);
+            }
+        });
+        add(search_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 20));
+        add(search_txtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 220, -1));
+    }// </editor-fold>//GEN-END:initComponents
+        
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
         // TODO add your handling code here:
 
@@ -151,7 +171,129 @@ public class StudentListPanel extends javax.swing.JPanel {
         exportToExcel();
     }//GEN-LAST:event_print_btnActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        
+        int row = jTable1.rowAtPoint(evt.getPoint());
+        if (row >= 0) {
+            String studentId = tableModel.getValueAt(row, 0).toString();
+            copyToClipboard(studentId);
+            displayStudentBorrowingDetails(row);
+        }
+    
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
+        // TODO add your handling code here:
+        String searchTerm = search_txtf.getText().trim();
+        searchStudents(searchTerm);
+    }//GEN-LAST:event_search_btnActionPerformed
+
     //methods 
+    
+    private void searchStudents(String searchTerm) {
+    String url = "jdbc:mysql://localhost:3306/librarydb";
+    String user = "root";
+    String password = "";
+    String query = "SELECT * FROM student_list WHERE student_id LIKE ? OR student_name LIKE ? OR year LIKE ? OR section LIKE ? OR contact_no LIKE ?";
+
+    tableModel.setRowCount(0);
+
+    try (Connection connection = DriverManager.getConnection(url, user, password);
+         PreparedStatement stmt = connection.prepareStatement(query)) {
+
+        String searchPattern = "%" + searchTerm + "%";
+        stmt.setString(1, searchPattern);
+        stmt.setString(2, searchPattern);
+        stmt.setString(3, searchPattern);
+        stmt.setString(4, searchPattern);
+        stmt.setString(5, searchPattern);
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String studentId = rs.getString("student_id");
+            String studentName = rs.getString("student_name");
+            String year = rs.getString("year");
+            String section = rs.getString("section");
+            String contactNo = rs.getString("contact_no");
+            int bookBorrowedQty = rs.getInt("borrowed_qty");
+
+            tableModel.addRow(new Object[]{studentId, studentName, year, section, contactNo, bookBorrowedQty});
+        }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error searching students: " + e.getMessage());
+        }
+    }
+
+    
+    
+    
+    
+    private void copyToClipboard(String studentId) {
+        StringSelection stringSelection = new StringSelection(studentId);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+        
+    }
+    
+    
+    private void displayStudentBorrowingDetails(int rowIndex) {
+        String studentId = tableModel.getValueAt(rowIndex, 0).toString();
+
+        // Query the database for borrowing details
+        List<String[]> borrowedBooks = getBorrowedBooks(studentId);
+
+        // Display the details in a new dialog
+        JDialog dialog = new JDialog((Frame) null, "Borrowing Details", true);
+        dialog.setLayout(new BorderLayout());
+
+        String[] columnNames = {"Book Title", "Borrow Date", "Return Date"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        for (String[] book : borrowedBooks) {
+            model.addRow(book);
+        }
+
+        JTable table = new JTable(model);
+        dialog.add(new JScrollPane(table), BorderLayout.CENTER);
+        dialog.setSize(400, 300);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
+
+    private List<String[]> getBorrowedBooks(String studentId) {
+        List<String[]> books = new ArrayList<>();
+        String url = "jdbc:mysql://localhost:3306/librarydb";
+        String user = "root";
+        String password = "";
+        String query = "SELECT book_title, date_borrowed, due_date FROM student_borrowing WHERE student_id = ?";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, studentId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String bookTitle = rs.getString("book_title");
+                String borrowDate = rs.getString("date_borrowed");
+                String returnDate = rs.getString("due_date");
+                books.add(new String[]{bookTitle, borrowDate, returnDate});
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error fetching borrowed books: " + e.getMessage());
+        }
+
+        return books;
+    }
+
+    
+    
     
      // Method to export student list to Excel
     private void exportToExcel() {
@@ -245,5 +387,7 @@ public class StudentListPanel extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton print_btn;
     private javax.swing.JButton refresh_Btn;
+    private javax.swing.JButton search_btn;
+    private javax.swing.JTextField search_txtf;
     // End of variables declaration//GEN-END:variables
 }
