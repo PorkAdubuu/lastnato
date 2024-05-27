@@ -80,6 +80,20 @@ CREATE TABLE student_borrowing (
     FOREIGN KEY (book_id) REFERENCES books(id)
 );
 
+CREATE TABLE teacher_borrowing (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    employers_id VARCHAR(50),
+    teachers_name VARCHAR(255),
+    department VARCHAR(250),
+    contact_no VARCHAR(50),
+    book_id INT,
+    book_title VARCHAR(255),
+    book_isbn VARCHAR(50),
+    book_category VARCHAR(50),
+    date_borrowed DATE,
+    FOREIGN KEY (book_id) REFERENCES books(id)
+);
+
 for student list table organized: 
 
 CREATE TABLE student_list (
@@ -90,6 +104,7 @@ CREATE TABLE student_list (
     contact_no VARCHAR(50),
     borrowed_qty INT
 );
+
 
 
 
