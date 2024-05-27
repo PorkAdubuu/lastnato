@@ -117,15 +117,15 @@ public class StudentListPanel extends javax.swing.JPanel {
                 refresh_BtnActionPerformed(evt);
             }
         });
-        add(refresh_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 410, -1, -1));
+        add(refresh_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 410, -1, -1));
 
-        print_btn.setText("Print");
+        print_btn.setText("Export");
         print_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 print_btnActionPerformed(evt);
             }
         });
-        add(print_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 410, -1, -1));
+        add(print_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 410, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
@@ -142,6 +142,7 @@ public class StudentListPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         StudentListDAO studentListDAO = new StudentListDAO();
         studentListDAO.updateStudentList();
+        loadStudentList();
     }//GEN-LAST:event_refresh_BtnActionPerformed
 
     private void print_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_print_btnActionPerformed
@@ -165,7 +166,17 @@ public class StudentListPanel extends javax.swing.JPanel {
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFSheet sheet = workbook.createSheet("Student List");
 
-            int rowNum = 0;
+            // Create the header row
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Student ID");
+            headerRow.createCell(1).setCellValue("Name");
+            headerRow.createCell(2).setCellValue("Year");
+            headerRow.createCell(3).setCellValue("Section");
+            headerRow.createCell(4).setCellValue("Contact");
+            headerRow.createCell(5).setCellValue("Borrowed Books");
+
+            // Create the data rows
+            int rowNum = 1;
             while (resultSet.next()) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(resultSet.getString("student_id"));
