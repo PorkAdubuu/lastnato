@@ -26,13 +26,13 @@ public class ExcelExporter {
 
             // Create header row
             Row headerRow = sheet.createRow(0);
-            headerRow.createCell(0).setCellValue("Student ID");
-            headerRow.createCell(1).setCellValue("Name");
-            headerRow.createCell(2).setCellValue("Year");
-            headerRow.createCell(3).setCellValue("Section");
-            headerRow.createCell(4).setCellValue("Contact");
-            headerRow.createCell(5).setCellValue("Number of Borrowed Books");
+            String[] headers = {"Student ID", "Name", "Year", "Section", "Contact", "Number of Borrowed Books"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
 
+            // Add data rows
             int rowNum = 1;
             while (resultSet.next()) {
                 Row row = sheet.createRow(rowNum++);
