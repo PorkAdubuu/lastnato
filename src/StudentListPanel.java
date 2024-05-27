@@ -109,7 +109,7 @@ public class StudentListPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1240, 310));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1250, 310));
 
         refresh_Btn.setText("Refresh");
         refresh_Btn.addActionListener(new java.awt.event.ActionListener() {
