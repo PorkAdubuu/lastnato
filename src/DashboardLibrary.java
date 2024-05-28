@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -21,6 +21,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
      */
     public DashboardLibrary() {
         initComponents();
+        setLocationRelativeTo(null);
         
         
         panel_content.setVisible(false);
@@ -57,9 +58,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
                 System.err.println("Resource not found: /images/bg-dashboard.png");
             }
             
-            // popup logged in as admin using Joptionpane
             
-            JOptionPane.showMessageDialog(this, "Logged in as ADMIN");
         
         
         
