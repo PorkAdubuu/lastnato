@@ -97,6 +97,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panel_content = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         search_btn = new javax.swing.JLabel();
         search_bar = new javax.swing.JTextField();
@@ -127,7 +128,6 @@ public class DashboardLibrary extends javax.swing.JFrame {
         returning_btn = new javax.swing.JLabel();
         penalty_btn = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        panel_content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -135,10 +135,16 @@ public class DashboardLibrary extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1366, 768));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        panel_content.setBackground(new java.awt.Color(255, 255, 255));
+        panel_content.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panel_content.setFocusCycleRoot(true);
+        panel_content.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(panel_content, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 1280, 480));
+
         jLabel16.setFont(new java.awt.Font("Arial Black", 1, 30)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("What are you looking for?");
-        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 210, -1, -1));
+        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 210, -1, -1));
 
         search_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/search-icon.png"))); // NOI18N
         search_btn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -152,7 +158,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
                 search_btnMouseExited(evt);
             }
         });
-        getContentPane().add(search_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 270, 40, 40));
+        getContentPane().add(search_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 270, 40, 40));
 
         search_bar.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         search_bar.addActionListener(new java.awt.event.ActionListener() {
@@ -161,7 +167,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
             }
         });
         // Assuming your parent container is a JPanel named panel_content
-        getContentPane().add(search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, 470, -1));
+        getContentPane().add(search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, 470, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -424,12 +430,6 @@ public class DashboardLibrary extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(243, 243, 243));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 1370, 170));
-
-        panel_content.setBackground(new java.awt.Color(255, 255, 255));
-        panel_content.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        panel_content.setFocusCycleRoot(true);
-        panel_content.setLayout(new java.awt.BorderLayout());
-        getContentPane().add(panel_content, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 1280, 480));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
