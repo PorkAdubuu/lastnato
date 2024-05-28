@@ -15,6 +15,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.util.List;
+import org.apache.poi.ss.usermodel.*;
+
 
 public class TeacherListPanel extends javax.swing.JPanel {
 
@@ -291,50 +293,74 @@ public class TeacherListPanel extends javax.swing.JPanel {
     
     // Method to export teacher list to Excel
     private void exportToExcel() {
-        String url = "jdbc:mysql://localhost:3306/librarydb";
-        String user = "root";
-        String password = "";
+    String url = "jdbc:mysql://localhost:3306/librarydb";
+    String user = "root";
+    String password = "";
 
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher_list");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+    try (Connection connection = DriverManager.getConnection(url, user, password);
+         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher_list");
+         ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet sheet = workbook.createSheet("Teacher List");
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Teacher List");
 
-            // Create the header row
-            Row headerRow = sheet.createRow(0);
-            headerRow.createCell(0).setCellValue("Employer ID");
-            headerRow.createCell(1).setCellValue("Name");
-            headerRow.createCell(2).setCellValue("Department");
-            headerRow.createCell(3).setCellValue("Contact");
-            headerRow.createCell(4).setCellValue("Borrowed Books");
+        // Create a bold font
+        org.apache.poi.ss.usermodel.Font headerFont = workbook.createFont();
+        headerFont.setBold(true);
 
-            // Create the data rows
-            int rowNum = 2;
-            while (resultSet.next()) {
-                Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(resultSet.getString("employers_id"));
-                row.createCell(1).setCellValue(resultSet.getString("teachers_name"));
-                row.createCell(2).setCellValue(resultSet.getString("department"));
-                row.createCell(3).setCellValue(resultSet.getString("contact_no"));
-                row.createCell(4).setCellValue(resultSet.getInt("borrowed_qty"));
-            }
+        // Create a cell style with the bold font
+        CellStyle headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFont(headerFont);
 
-            // Write the output to a file
-            try (FileOutputStream fileOut = new FileOutputStream("teacher_list.xlsx")) {
-                workbook.write(fileOut);
-            }
+        // Create the header row
+        Row headerRow = sheet.createRow(0);
+        Cell cell;
 
-            // Display a success message
-            JOptionPane.showMessageDialog(null, "Teacher list exported to Excel successfully!");
+        cell = headerRow.createCell(0);
+        cell.setCellValue("Employer ID");
+        cell.setCellStyle(headerCellStyle);
 
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-            // Display an error message if export fails
-            JOptionPane.showMessageDialog(null, "Error exporting teacher list to Excel: " + e.getMessage());
+        cell = headerRow.createCell(1);
+        cell.setCellValue("Name");
+        cell.setCellStyle(headerCellStyle);
+
+        cell = headerRow.createCell(2);
+        cell.setCellValue("Department");
+        cell.setCellStyle(headerCellStyle);
+
+        cell = headerRow.createCell(3);
+        cell.setCellValue("Contact");
+        cell.setCellStyle(headerCellStyle);
+
+        cell = headerRow.createCell(4);
+        cell.setCellValue("Borrowed Books");
+        cell.setCellStyle(headerCellStyle);
+
+        // Create the data rows
+        int rowNum = 2;
+        while (resultSet.next()) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(resultSet.getString("employers_id"));
+            row.createCell(1).setCellValue(resultSet.getString("teachers_name"));
+            row.createCell(2).setCellValue(resultSet.getString("department"));
+            row.createCell(3).setCellValue(resultSet.getString("contact_no"));
+            row.createCell(4).setCellValue(resultSet.getInt("borrowed_qty"));
         }
+
+        // Write the output to a file
+        try (FileOutputStream fileOut = new FileOutputStream("teacher_list.xlsx")) {
+            workbook.write(fileOut);
+        }
+
+        // Display a success message
+        JOptionPane.showMessageDialog(null, "Teacher list exported to Excel successfully!");
+
+    } catch (SQLException | IOException e) {
+        e.printStackTrace();
+        // Display an error message if export fails
+        JOptionPane.showMessageDialog(null, "Error exporting teacher list to Excel: " + e.getMessage());
     }
+}
     
     // Custom method to initialize additional components
     private void initCustomComponents() {
