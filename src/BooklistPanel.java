@@ -1,3 +1,4 @@
+import static com.itextpdf.text.pdf.PdfFileSpecification.url;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -16,9 +17,10 @@ import java.util.Vector;
 
 public class BooklistPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form BooklistPanel
-     */
+    private String url = "jdbc:mysql://localhost:3306/librarydb";
+    private String user = "root";
+    private String password = "";
+    
     public BooklistPanel() {
         initComponents();
         
@@ -246,7 +248,9 @@ public class BooklistPanel extends javax.swing.JPanel {
 
     
         //method 
-    
+        
+        
+
     
         //search method
         private void searchBooks(String query) {
@@ -375,7 +379,44 @@ public class BooklistPanel extends javax.swing.JPanel {
             }
         }
 
-        
+        public void searchBooksFromDashboard(String query) {
+        // Database connection parameters
+        String url = "jdbc:mysql://localhost:3306/librarydb";
+        String user = "root";
+        String password = "";
+
+        // SQL query to search for books based on title, author, or ISBN
+        String sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            // Set the search query as a parameter in the prepared statement
+            pstmt.setString(1, "%" + query + "%");
+            pstmt.setString(2, "%" + query + "%");
+            pstmt.setString(3, "%" + query + "%");
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+
+            // Populate the table with the search results
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0); // Clear existing rows
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("id"),
+                    rs.getString("title"),
+                    rs.getString("isbn"),
+                    rs.getString("author"),
+                    rs.getString("category"),
+                    rs.getString("publisher"),
+                    rs.getString("status")
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error searching books: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
         
         
     
