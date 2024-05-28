@@ -311,7 +311,7 @@ public class TeacherListPanel extends javax.swing.JPanel {
             headerRow.createCell(4).setCellValue("Borrowed Books");
 
             // Create the data rows
-            int rowNum = 1;
+            int rowNum = 2;
             while (resultSet.next()) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(resultSet.getString("employers_id"));

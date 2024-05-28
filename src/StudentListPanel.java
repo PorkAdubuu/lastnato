@@ -322,7 +322,7 @@ public class StudentListPanel extends javax.swing.JPanel {
             headerRow.createCell(5).setCellValue("Borrowed Books");
 
             // Create the data rows
-            int rowNum = 1;
+            int rowNum = 2;
             while (resultSet.next()) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(resultSet.getString("student_id"));
