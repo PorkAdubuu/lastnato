@@ -385,16 +385,16 @@ public class BooklistPanel extends javax.swing.JPanel {
         String user = "root";
         String password = "";
 
-        // SQL query to search for books based on title, author, or ISBN
-        String sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?";
+        // SQL query to search for books based on title, author, ISBN, ID, or category
+        String sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ? OR id LIKE ? OR category LIKE ?";
 
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             // Set the search query as a parameter in the prepared statement
-            pstmt.setString(1, "%" + query + "%");
-            pstmt.setString(2, "%" + query + "%");
-            pstmt.setString(3, "%" + query + "%");
+            for (int i = 1; i <= 5; i++) {
+                pstmt.setString(i, "%" + query + "%");
+            }
 
             // Execute the query
             ResultSet rs = pstmt.executeQuery();
@@ -417,6 +417,7 @@ public class BooklistPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error searching books: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
         
         
     

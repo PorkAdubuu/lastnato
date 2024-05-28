@@ -1,5 +1,6 @@
 
 
+import java.awt.Component;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -21,14 +22,20 @@ import javax.swing.ImageIcon;
  */
 public class DashboardLibrary extends javax.swing.JFrame {
 
-    /**
-     * Creates new form DashboardLibrary
-     */
+   private BooklistPanel booklistPanel;
+   
     public DashboardLibrary() {
         initComponents();
         setLocationRelativeTo(null);
         
-        
+        // Create the BooklistPanel instance
+        booklistPanel = new BooklistPanel();
+
+        // Add the BooklistPanel to panel_content
+        panel_content.add(booklistPanel);
+
+        // Make booklist_content JPanel visible
+        panel_content.setVisible(false);
         
         
                     java.net.URL imageURL = getClass().getResource("/lastnato/logo.png");
@@ -65,9 +72,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
             
             BooklistPanel booklistPanel = new BooklistPanel();
 
-    // Add BooklistPanel to panel_content
-    panel_content.add(booklistPanel);
-        panel_content.setVisible(false);
+    
         
         
     }
@@ -552,34 +557,35 @@ public class DashboardLibrary extends javax.swing.JFrame {
     }//GEN-LAST:event_search_barActionPerformed
 
     private void search_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_search_btnMouseClicked
-        // TODO add your handling code here:
-        String query = search_bar.getText();
+        // Retrieve the search query from the search bar
+    // Retrieve the search query from the search bar
+    String query = search_bar.getText();
+
+    // Ensure booklistPanel is not null
     
-        // Log the number of components in panel_content
-        int componentCount = panel_content.getComponentCount();
-        System.out.println("Number of components in panel_content: " + componentCount);
-    
-        // Get the BooklistPanel from the DashboardLibrary
-        if (componentCount > 0) {
-        BooklistPanel booklistPanel = (BooklistPanel) panel_content.getComponent(0);
-        
-        // Call the searchBooksFromDashboard method of the BooklistPanel
-        booklistPanel.searchBooksFromDashboard(query);
         
         panel_content.removeAll();
 
+        // Create a new instance of BooklistPanel
+        BooklistPanel booklistPanel = new BooklistPanel();
+
         // Add BooklistPanel to booklist_content JPanel
         panel_content.add(booklistPanel);
-
         // Make booklist_content JPanel visible
         panel_content.setVisible(true);
 
         // Repaint booklist_content JPanel
         panel_content.revalidate();
         panel_content.repaint();
-        } else {
-        System.out.println("panel_content is empty or does not contain BooklistPanel.");
-         }
+        
+        if (booklistPanel != null) {
+        // Call the searchBooksFromDashboard method of the BooklistPanel
+        booklistPanel.searchBooksFromDashboard(query);
+    } else {
+        System.out.println("BooklistPanel is not properly initialized.");
+    }
+
+        
     }//GEN-LAST:event_search_btnMouseClicked
 
     private void search_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_search_btnMouseEntered
