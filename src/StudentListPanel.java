@@ -68,7 +68,7 @@ public class StudentListPanel extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(70, 134, 242));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/booklist-icon.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/student_icon_small.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));

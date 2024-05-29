@@ -37,12 +37,12 @@ public class AddBookPanel extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         title_txtf = new javax.swing.JTextField();
-        add_btn = new javax.swing.JButton();
         isbn_txtf = new javax.swing.JTextField();
         author_txtf = new javax.swing.JTextField();
         copyright_txtf = new javax.swing.JTextField();
         publisher_txtf = new javax.swing.JTextField();
         category_combo = new javax.swing.JComboBox<>();
+        addBook_btn = new javax.swing.JLabel();
 
         title_txtf2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
@@ -54,9 +54,9 @@ public class AddBookPanel extends javax.swing.JPanel {
         book_icon.setForeground(new java.awt.Color(255, 255, 255));
         book_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/bookiki.png"))); // NOI18N
 
-        addook_ttl.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        addook_ttl.setFont(new java.awt.Font("Arial Black", 0, 20)); // NOI18N
         addook_ttl.setForeground(new java.awt.Color(255, 255, 255));
-        addook_ttl.setText("ADD BOOK");
+        addook_ttl.setText("Book Details");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -84,14 +84,6 @@ public class AddBookPanel extends javax.swing.JPanel {
 
         title_txtf.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        add_btn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        add_btn.setText("Add Book");
-        add_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                add_btnActionPerformed(evt);
-            }
-        });
-
         isbn_txtf.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         isbn_txtf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,40 +99,51 @@ public class AddBookPanel extends javax.swing.JPanel {
 
         category_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Category", "Fiction", "Non-Fiction", "Academic", " " }));
 
+        addBook_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/addbook-btnn.png"))); // NOI18N
+        addBook_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addBook_btnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                addBook_btnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                addBook_btnMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addGap(164, 164, 164)
-                            .addComponent(add_btn)
-                            .addGap(58, 58, 58))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel9))
-                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(title_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(isbn_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(author_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(copyright_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(publisher_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(category_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(addook_ttl)
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel9))
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(book_icon)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(title_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(isbn_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(author_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(copyright_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(publisher_txtf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(category_combo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(book_icon)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addook_ttl))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(addBook_btn)))
                 .addContainerGap(276, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -148,8 +151,8 @@ public class AddBookPanel extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addook_ttl)
-                    .addComponent(book_icon))
+                    .addComponent(book_icon)
+                    .addComponent(addook_ttl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(title_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,16 +177,45 @@ public class AddBookPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(publisher_txtf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(add_btn)
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addBook_btn)
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 350));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void add_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_btnActionPerformed
+    private void isbn_txtfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isbn_txtfActionPerformed
         // TODO add your handling code here:
+    }//GEN-LAST:event_isbn_txtfActionPerformed
+
+    private void addBook_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBook_btnMouseClicked
+        // TODO add your handling code here:
+        addBook();
+    }//GEN-LAST:event_addBook_btnMouseClicked
+
+    private void addBook_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBook_btnMouseEntered
+        // TODO add your handling code here:
+        addBook_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_addBook_btnMouseEntered
+
+    private void addBook_btnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBook_btnMouseExited
+        // TODO add your handling code here:
+        addBook_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_addBook_btnMouseExited
+        
+        private void clearFields() {
+        title_txtf.setText("");
+        isbn_txtf.setText("");
+        category_combo.setSelectedIndex(0);
+        author_txtf.setText("");
+        copyright_txtf.setText("");
+        publisher_txtf.setText("");
+       
+    }
+        
+        private void addBook() {
+        
         // Add book to the database
         String title = title_txtf.getText();
         String isbn = isbn_txtf.getText();
@@ -234,24 +266,11 @@ public class AddBookPanel extends javax.swing.JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error adding book: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_add_btnActionPerformed
-
-    private void isbn_txtfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isbn_txtfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_isbn_txtfActionPerformed
         
-        private void clearFields() {
-        title_txtf.setText("");
-        isbn_txtf.setText("");
-        category_combo.setSelectedIndex(0);
-        author_txtf.setText("");
-        copyright_txtf.setText("");
-        publisher_txtf.setText("");
-       
-    }
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add_btn;
+    private javax.swing.JLabel addBook_btn;
     private javax.swing.JLabel addook_ttl;
     private javax.swing.JTextField author_txtf;
     private javax.swing.JLabel book_icon;
