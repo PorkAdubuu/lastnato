@@ -1,8 +1,11 @@
 import static com.itextpdf.text.pdf.PdfFileSpecification.url;
+import java.awt.Font;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,7 +13,16 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.List;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
   
@@ -70,11 +82,12 @@ public class BooklistPanel extends javax.swing.JPanel {
         jComboBox1 = new javax.swing.JComboBox<>();
         Scrollpane = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        refresh_btn = new javax.swing.JButton();
-        remove_btn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         searchField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        remove_btn = new javax.swing.JLabel();
+        export_btn = new javax.swing.JLabel();
+        refresh_btn = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1290, 463));
@@ -85,6 +98,12 @@ public class BooklistPanel extends javax.swing.JPanel {
         close.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
             }
         });
         add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 10, 50, 40));
@@ -160,22 +179,6 @@ public class BooklistPanel extends javax.swing.JPanel {
 
         add(Scrollpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 120, 940, 300));
 
-        refresh_btn.setText("refresh");
-        refresh_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refresh_btnActionPerformed(evt);
-            }
-        });
-        add(refresh_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 430, -1, -1));
-
-        remove_btn.setText("remove book");
-        remove_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                remove_btnActionPerformed(evt);
-            }
-        });
-        add(remove_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 430, 110, -1));
-
         jPanel2.setBackground(new java.awt.Color(133, 177, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -190,6 +193,48 @@ public class BooklistPanel extends javax.swing.JPanel {
             }
         });
         add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 80, -1));
+
+        remove_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/remove-btnn.png"))); // NOI18N
+        remove_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                remove_btnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                remove_btnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                remove_btnMouseExited(evt);
+            }
+        });
+        add(remove_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 430, -1, -1));
+
+        export_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/export-icon.png"))); // NOI18N
+        export_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                export_btnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                export_btnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                export_btnMouseExited(evt);
+            }
+        });
+        add(export_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 70, -1, -1));
+
+        refresh_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/refresh-greeny.png"))); // NOI18N
+        refresh_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                refresh_btnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                refresh_btnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                refresh_btnMouseExited(evt);
+            }
+        });
+        add(refresh_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 430, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -204,31 +249,6 @@ public class BooklistPanel extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
     }//GEN-LAST:event_jTable1MouseClicked
-
-    private void refresh_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refresh_btnActionPerformed
-        // TODO add your handling code here:
-        
-        fetchBooks();
-
-        
-    }//GEN-LAST:event_refresh_btnActionPerformed
-
-    private void remove_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove_btnActionPerformed
-                // TODO add your handling code here:
-            int selectedRow = jTable1.getSelectedRow();
-            if (selectedRow != -1) {
-                // Get the ID of the selected book
-                int bookId = (int) jTable1.getValueAt(selectedRow, 0);
-                // Call the method to remove the book from the database
-                removeBook(bookId);
-                // Refresh the table to reflect the changes
-                fetchBooks();
-            } else {
-                JOptionPane.showMessageDialog(this, "Please select a book to remove.");
-            }
-    
-
-    }//GEN-LAST:event_remove_btnActionPerformed
 
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
         // TODO add your handling code here:
@@ -246,10 +266,177 @@ public class BooklistPanel extends javax.swing.JPanel {
         searchBooks(query);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void remove_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_remove_btnMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+            if (selectedRow != -1) {
+                // Get the ID of the selected book
+                int bookId = (int) jTable1.getValueAt(selectedRow, 0);
+                // Call the method to remove the book from the database
+                removeBook(bookId);
+                // Refresh the table to reflect the changes
+                fetchBooks();
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a book to remove.");
+            }
+    }//GEN-LAST:event_remove_btnMouseClicked
+
+    private void remove_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_remove_btnMouseEntered
+        // TODO add your handling code here:
+        remove_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_remove_btnMouseEntered
+
+    private void remove_btnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_remove_btnMouseExited
+        // TODO add your handling code here:
+        remove_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_remove_btnMouseExited
+
+    private void export_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_export_btnMouseClicked
+        // TODO add your handling code here:
+        exportToExcel();       
+    }//GEN-LAST:event_export_btnMouseClicked
+
+    private void export_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_export_btnMouseEntered
+        // TODO add your handling code here:
+        export_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_export_btnMouseEntered
+
+    private void export_btnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_export_btnMouseExited
+        // TODO add your handling code here:
+        export_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_export_btnMouseExited
+
+    private void refresh_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refresh_btnMouseClicked
+        // TODO add your handling code here:
+        fetchBooks();
+    }//GEN-LAST:event_refresh_btnMouseClicked
+
+    private void refresh_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refresh_btnMouseEntered
+        // TODO add your handling code here:
+        refresh_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_refresh_btnMouseEntered
+
+    private void refresh_btnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refresh_btnMouseExited
+        // TODO add your handling code here:
+        refresh_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_refresh_btnMouseExited
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        // TODO add your handling code here:
+        close.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        // TODO add your handling code here:
+        close.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_closeMouseExited
+
     
         //method 
         
-        
+        private void exportToExcel() {
+        String url = "jdbc:mysql://localhost:3306/librarydb";
+        String user = "root";
+        String password = "";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM books");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("Book List");
+
+            // Create a bold font
+            org.apache.poi.ss.usermodel.Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+
+            // Create a cell style with the bold font
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            headerCellStyle.setFont(headerFont);
+            
+            // Create a bold font for date and time
+            XSSFFont dateTimeFont = workbook.createFont();
+            dateTimeFont.setBold(true);
+
+            // Create a cell style for date and time with the bold font
+            CellStyle dateTimeCellStyle = workbook.createCellStyle();
+            dateTimeCellStyle.setFont(dateTimeFont);
+
+            // Get the current date and time
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDateTime = currentDateTime.format(formatter);
+
+            // Create a row for the export date and time
+            Row dateTimeRow = sheet.createRow(0);
+            Cell dateTimeCell = dateTimeRow.createCell(0);
+            dateTimeCell.setCellValue("Export Date and Time: " + formattedDateTime);
+            dateTimeCell.setCellStyle(dateTimeCellStyle);
+
+            // Create the header row
+            Row headerRow = sheet.createRow(2); // Move header row to the third row
+            Cell cell;
+
+            cell = headerRow.createCell(0);
+            cell.setCellValue("ID");
+            cell.setCellStyle(headerCellStyle);
+
+            cell = headerRow.createCell(1);
+            cell.setCellValue("Title");
+            cell.setCellStyle(headerCellStyle);
+
+            cell = headerRow.createCell(2);
+            cell.setCellValue("ISBN");
+            cell.setCellStyle(headerCellStyle);
+
+            cell = headerRow.createCell(3);
+            cell.setCellValue("Category");
+            cell.setCellStyle(headerCellStyle);
+
+            cell = headerRow.createCell(4);
+            cell.setCellValue("Author");
+            cell.setCellStyle(headerCellStyle);
+
+            cell = headerRow.createCell(5);
+            cell.setCellValue("Copyright");
+            cell.setCellStyle(headerCellStyle);
+
+            cell = headerRow.createCell(6);
+            cell.setCellValue("Publisher");
+            cell.setCellStyle(headerCellStyle);
+
+            cell = headerRow.createCell(7);
+            cell.setCellValue("Status");
+            cell.setCellStyle(headerCellStyle);
+
+            // Create the data rows
+            int rowNum = 4; // Start data rows after the header row
+            while (resultSet.next()) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(resultSet.getInt("id"));
+                row.createCell(1).setCellValue(resultSet.getString("title"));
+                row.createCell(2).setCellValue(resultSet.getString("isbn"));
+                row.createCell(3).setCellValue(resultSet.getString("category"));
+                row.createCell(4).setCellValue(resultSet.getString("author"));
+                row.createCell(5).setCellValue(resultSet.getString("copyright"));
+                row.createCell(6).setCellValue(resultSet.getString("publisher"));
+                row.createCell(7).setCellValue(resultSet.getString("status"));
+            }
+
+            // Write the output to a file
+            try (FileOutputStream fileOut = new FileOutputStream("book_list.xlsx")) {
+                workbook.write(fileOut);
+            }
+
+            // Display a success message
+            JOptionPane.showMessageDialog(null, "Book list exported to Excel successfully!");
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            // Display an error message if export fails
+            JOptionPane.showMessageDialog(null, "Error exporting Book list to Excel: " + e.getMessage());
+        }
+    }
 
     
         //search method
@@ -386,13 +573,13 @@ public class BooklistPanel extends javax.swing.JPanel {
         String password = "";
 
         // SQL query to search for books based on title, author, ISBN, ID, or category
-        String sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ? OR id LIKE ? OR category LIKE ?";
+        String sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ? OR copyright LIKE ? OR id LIKE ? OR category LIKE ? OR publisher LIKE ?";
 
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             // Set the search query as a parameter in the prepared statement
-            for (int i = 1; i <= 5; i++) {
+            for (int i = 1; i <= 7; i++) {
                 pstmt.setString(i, "%" + query + "%");
             }
 
@@ -407,8 +594,9 @@ public class BooklistPanel extends javax.swing.JPanel {
                     rs.getInt("id"),
                     rs.getString("title"),
                     rs.getString("isbn"),
-                    rs.getString("author"),
                     rs.getString("category"),
+                    rs.getString("author"),
+                    rs.getString("copyright"),                  
                     rs.getString("publisher"),
                     rs.getString("status")
                 });
@@ -425,6 +613,7 @@ public class BooklistPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane Scrollpane;
     private javax.swing.JLabel close;
+    private javax.swing.JLabel export_btn;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -433,8 +622,8 @@ public class BooklistPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JButton refresh_btn;
-    private javax.swing.JButton remove_btn;
+    private javax.swing.JLabel refresh_btn;
+    private javax.swing.JLabel remove_btn;
     private javax.swing.JTextField searchField;
     // End of variables declaration//GEN-END:variables
 }

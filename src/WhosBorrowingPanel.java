@@ -98,6 +98,12 @@ public class WhosBorrowingPanel extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 student_borrowerMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                student_borrowerMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                student_borrowerMouseExited(evt);
+            }
         });
 
         teacher_borrower.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/teacher.png"))); // NOI18N
@@ -105,6 +111,12 @@ public class WhosBorrowingPanel extends javax.swing.JPanel {
         teacher_borrower.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 teacher_borrowerMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                teacher_borrowerMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                teacher_borrowerMouseExited(evt);
             }
         });
 
@@ -195,6 +207,26 @@ public class WhosBorrowingPanel extends javax.swing.JPanel {
         panelContent.revalidate();
         panelContent.repaint();
     }//GEN-LAST:event_teacher_borrowerMouseClicked
+
+    private void teacher_borrowerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_teacher_borrowerMouseEntered
+        // TODO add your handling code here:
+        teacher_borrower.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_teacher_borrowerMouseEntered
+
+    private void teacher_borrowerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_teacher_borrowerMouseExited
+        // TODO add your handling code here:
+        teacher_borrower.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_teacher_borrowerMouseExited
+
+    private void student_borrowerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_student_borrowerMouseEntered
+        // TODO add your handling code here:
+        student_borrower.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_student_borrowerMouseEntered
+
+    private void student_borrowerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_student_borrowerMouseExited
+        // TODO add your handling code here:
+        student_borrower.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_student_borrowerMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

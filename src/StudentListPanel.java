@@ -10,12 +10,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.util.List;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 
 
 public class StudentListPanel extends javax.swing.JPanel {
@@ -45,10 +48,10 @@ public class StudentListPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        refresh_Btn = new javax.swing.JButton();
-        print_btn = new javax.swing.JButton();
         search_btn = new javax.swing.JButton();
         search_txtf = new javax.swing.JTextField();
+        refresh_btn = new javax.swing.JLabel();
+        export_btn = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1290, 463));
@@ -121,23 +124,7 @@ public class StudentListPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 1250, 270));
-
-        refresh_Btn.setText("Refresh");
-        refresh_Btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refresh_BtnActionPerformed(evt);
-            }
-        });
-        add(refresh_Btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 410, -1, -1));
-
-        print_btn.setText("Export");
-        print_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                print_btnActionPerformed(evt);
-            }
-        });
-        add(print_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 410, -1, -1));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 1250, 290));
 
         search_btn.setText("Search");
         search_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -147,6 +134,34 @@ public class StudentListPanel extends javax.swing.JPanel {
         });
         add(search_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
         add(search_txtf, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 220, -1));
+
+        refresh_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/refresh-btnn.png"))); // NOI18N
+        refresh_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                refresh_btnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                refresh_btnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                refresh_btnMouseExited(evt);
+            }
+        });
+        add(refresh_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 420, -1, -1));
+
+        export_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/export-btnn.png"))); // NOI18N
+        export_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                export_btnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                export_btnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                export_btnMouseExited(evt);
+            }
+        });
+        add(export_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 420, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
         
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
@@ -158,19 +173,6 @@ public class StudentListPanel extends javax.swing.JPanel {
         JPanel parent = (JPanel) this.getParent();
         parent.setVisible(false);
     }//GEN-LAST:event_closeMouseClicked
-
-    private void refresh_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refresh_BtnActionPerformed
-        // TODO add your handling code here:
-        StudentListDAO studentListDAO = new StudentListDAO();
-        studentListDAO.updateStudentList();
-        loadStudentList();
-    }//GEN-LAST:event_refresh_BtnActionPerformed
-
-    private void print_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_print_btnActionPerformed
-        // TODO add your handling code here:
-        
-        exportToExcel();
-    }//GEN-LAST:event_print_btnActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
@@ -189,6 +191,38 @@ public class StudentListPanel extends javax.swing.JPanel {
         String searchTerm = search_txtf.getText().trim();
         searchStudents(searchTerm);
     }//GEN-LAST:event_search_btnActionPerformed
+
+    private void refresh_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refresh_btnMouseClicked
+        // TODO add your handling code here:
+        StudentListDAO studentListDAO = new StudentListDAO();
+        studentListDAO.updateStudentList();
+        loadStudentList();
+    }//GEN-LAST:event_refresh_btnMouseClicked
+
+    private void refresh_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refresh_btnMouseEntered
+        // TODO add your handling code here:
+        refresh_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_refresh_btnMouseEntered
+
+    private void refresh_btnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refresh_btnMouseExited
+        // TODO add your handling code here:
+        refresh_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_refresh_btnMouseExited
+
+    private void export_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_export_btnMouseClicked
+        // TODO add your handling code here:
+        exportToExcel();
+    }//GEN-LAST:event_export_btnMouseClicked
+
+    private void export_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_export_btnMouseEntered
+        // TODO add your handling code here:
+        export_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_export_btnMouseEntered
+
+    private void export_btnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_export_btnMouseExited
+        // TODO add your handling code here:
+        export_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_export_btnMouseExited
 
     //methods 
     
@@ -320,9 +354,28 @@ public class StudentListPanel extends javax.swing.JPanel {
         // Create a cell style with the bold font
         CellStyle headerCellStyle = workbook.createCellStyle();
         headerCellStyle.setFont(headerFont);
+        
+        // Create a bold font for date and time
+        XSSFFont dateTimeFont = workbook.createFont();
+        dateTimeFont.setBold(true);
+
+        // Create a cell style for date and time with the bold font
+        CellStyle dateTimeCellStyle = workbook.createCellStyle();
+        dateTimeCellStyle.setFont(dateTimeFont);
+
+        // Get the current date and time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        // Create a row for the export date and time
+        Row dateTimeRow = sheet.createRow(0);
+        Cell dateTimeCell = dateTimeRow.createCell(0);
+        dateTimeCell.setCellValue("Export Date and Time: " + formattedDateTime);
+        dateTimeCell.setCellStyle(dateTimeCellStyle);
 
         // Create the header row
-        Row headerRow = sheet.createRow(0);
+        Row headerRow = sheet.createRow(2);
         Cell cell;
 
         cell = headerRow.createCell(0);
@@ -350,7 +403,7 @@ public class StudentListPanel extends javax.swing.JPanel {
         cell.setCellStyle(headerCellStyle);
 
         // Create the data rows
-        int rowNum = 2; 
+        int rowNum = 4; 
         while (resultSet.next()) {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(resultSet.getString("student_id"));
@@ -412,13 +465,13 @@ public class StudentListPanel extends javax.swing.JPanel {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel close;
+    private javax.swing.JLabel export_btn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JButton print_btn;
-    private javax.swing.JButton refresh_Btn;
+    private javax.swing.JLabel refresh_btn;
     private javax.swing.JButton search_btn;
     private javax.swing.JTextField search_txtf;
     // End of variables declaration//GEN-END:variables
