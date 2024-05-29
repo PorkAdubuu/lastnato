@@ -36,23 +36,22 @@ public class BookDAO {
     }
     
     
-            public void updateBookStatus(int bookId, String status) {
-            String query = "UPDATE books SET status = ? WHERE id = ?";
+            public void updateBookStatus(int bookId, String status) throws SQLException {
+            String url = "jdbc:mysql://localhost:3306/librarydb";
+            String user = "root";
+            String password = "";
+            String sql = "UPDATE books SET status = ? WHERE id = ?";
 
-            try (Connection connection = DatabaseConnection.getConnection();
-                 PreparedStatement pstmt = connection.prepareStatement(query)) {
-
+            try (Connection connection = DriverManager.getConnection(url, user, password);
+                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
                 pstmt.setString(1, status);
                 pstmt.setInt(2, bookId);
-
                 pstmt.executeUpdate();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
         }
+
             
-            public String getBookStatus(int bookId) throws SQLException {
+        public String getBookStatus(int bookId) throws SQLException {
         String status = "";
         String url = "jdbc:mysql://localhost:3306/librarydb";
         String user = "root";
@@ -70,6 +69,28 @@ public class BookDAO {
 
         return status;
     }
+        
+        
+        public String getBookCategory(int bookId) throws SQLException {
+        String category = "";
+        String url = "jdbc:mysql://localhost:3306/librarydb";
+        String user = "root";
+        String password = "";
+        String sql = "SELECT category FROM books WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, bookId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                category = rs.getString("category");
+            }
+        }
+
+        return category;
+    }
+
+    
 
 
     

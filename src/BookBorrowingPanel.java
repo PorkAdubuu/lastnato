@@ -644,44 +644,49 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 try (Connection connection = DriverManager.getConnection(url, user, password);
-                     PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-                    pstmt.setString(1, studentName);
-                    pstmt.setString(2, studentId);
-                    pstmt.setString(3, year);
-                    pstmt.setString(4, section);
-                    pstmt.setString(5, contactNo);
-                    pstmt.setInt(6, bookId);
-                    pstmt.setString(7, bookTitle);
-                    pstmt.setString(8, bookIsbn);
-                    pstmt.setString(9, bookCategory);
-                    pstmt.setDate(10, new java.sql.Date(borrowedDate.getTime()));
-                    pstmt.setDate(11, new java.sql.Date(dueDate.getTime()));
+               // Retrieve the book status and category
+               String status = bookDAO.getBookStatus(bookId);
+               String category = bookDAO.getBookCategory(bookId);
 
-                    // Check if the book is available for borrowing
-                    String status = bookDAO.getBookStatus(bookId);
-                    if (status.equals("Available")) {
-                        // Proceed with borrowing
-                        pstmt.executeUpdate();
-                        JOptionPane.showMessageDialog(this, "Borrowing details submitted successfully!");
-                    } else {
-                        // Book is not available for borrowing
-                        JOptionPane.showMessageDialog(this, "This book is not available for borrowing.", "Book Unavailable", JOptionPane.WARNING_MESSAGE);
-                    }
+               if (category.equals("Academic")) {
+                   // Academic books cannot be borrowed
+                   JOptionPane.showMessageDialog(this, "Academic books are only allowed inside the library.", "Borrowing Restricted", JOptionPane.WARNING_MESSAGE);
+               } else if (status.equals("Available")) {
+                   // Proceed with borrowing
+                   pstmt.setString(1, studentName);
+                   pstmt.setString(2, studentId);
+                   pstmt.setString(3, year);
+                   pstmt.setString(4, section);
+                   pstmt.setString(5, contactNo);
+                   pstmt.setInt(6, bookId);
+                   pstmt.setString(7, bookTitle);
+                   pstmt.setString(8, bookIsbn);
+                   pstmt.setString(9, bookCategory);
+                   pstmt.setDate(10, new java.sql.Date(borrowedDate.getTime()));
+                   pstmt.setDate(11, new java.sql.Date(dueDate.getTime()));
 
-                } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(this, "Error submitting borrowing details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                   pstmt.executeUpdate();
+                   JOptionPane.showMessageDialog(this, "Borrowing details submitted successfully!");
 
-                // Set status based on borrowing date
-                Date today = new Date();
-                boolean sameDay = borrowedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                                   .equals(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-                String status = sameDay ? "Borrowed" : "Reserved";
+                   // Set status based on borrowing date
+                   Date today = new Date();
+                   boolean sameDay = borrowedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                                      .equals(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                   String newStatus = sameDay ? "Borrowed" : "Reserved";
 
-                // Update book status
-                bookDAO.updateBookStatus(bookId, status);
-            }
+                   // Update book status
+                   bookDAO.updateBookStatus(bookId, newStatus);
+               } else {
+                   // Book is not available for borrowing
+                   JOptionPane.showMessageDialog(this, "This book is not available for borrowing.", "Book Unavailable", JOptionPane.WARNING_MESSAGE);
+               }
+
+           } catch (SQLException e) {
+               JOptionPane.showMessageDialog(this, "Error submitting borrowing details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+           }
+        }
 
             private boolean isStudentAtBorrowingLimit(String studentId) {
                 // Query the database to check how many books the student has borrowed
