@@ -14,6 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+
+
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
@@ -25,15 +28,21 @@ import javax.swing.event.DocumentListener;
  */
 public class BookReturningPanel extends javax.swing.JPanel {
 
+    private JPanel panelContent;
+    private String bookID;
+    private String studentID;
+    private int penaltyAmount;
     
-    private final JPanel panelContent;
     public BookReturningPanel(JPanel panelContent) {
         initComponents();
         this.panelContent = panelContent;
+
         
+        
+        
+
+        // Make booklist_content JPanel visible
         panel_content.setVisible(false);
-        
-        
         
         
 
@@ -372,21 +381,203 @@ public class BookReturningPanel extends javax.swing.JPanel {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public String getBookID() {
+        return bookID;
+    }
+
+    public String getStudentID() {
+        return studentID;
+    }
     
     
 
+    public void setBookInfo(String bookID, String studentID, int penaltyAmount) {
+        this.bookID = bookID;
+        this.studentID = studentID;
+        this.penaltyAmount = penaltyAmount;
+    }
+
+    
+    public void updateDatabase(int bookID, String studentID, int amountPaid) {
+            if (amountPaid >= penaltyAmount) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+
+            // Begin transaction
+            connection.setAutoCommit(false);
+
+            // Update the book status
+            String updateBookStatusSql = "UPDATE books SET status = 'Available' WHERE id = ?";
+            statement = connection.prepareStatement(updateBookStatusSql);
+            statement.setInt(1, bookID);
+            statement.executeUpdate();
+            statement.close();
+
+            // Delete the borrowing record from student_borrowing table
+            String deleteBorrowingSql = "DELETE FROM student_borrowing WHERE book_id = ? AND student_id = ?";
+            statement = connection.prepareStatement(deleteBorrowingSql);
+            statement.setInt(1, bookID);
+            statement.setString(2, studentID);
+            int borrowingDeleted = statement.executeUpdate();
+            statement.close();
+
+            // Delete the student record from student_list table
+            String deleteStudentSql = "DELETE FROM student_list WHERE student_id = ?";
+            statement = connection.prepareStatement(deleteStudentSql);
+            statement.setString(1, studentID);
+            int studentDeleted = statement.executeUpdate();
+            statement.close();
+
+            // Commit transaction
+            connection.commit();
+
+            // Check if records were deleted
+            if (borrowingDeleted > 0 && studentDeleted > 0) {
+                System.out.println("Records deleted successfully.");
+            } else {
+                System.out.println("No records deleted. Check the book ID and student ID.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.setAutoCommit(true);  // Reset auto-commit to true
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    } else {
+        // Print an error message to debug if this block is executed
+        System.out.println("Amount paid is less than the penalty amount. No updates made to the database.");
+    }
+    }
+    
+    
+    
+    
+    private LocalDate queryDueDateFromDatabase(String bookID, String studentID) {
+        // Query the database to retrieve the due date for the given book and student
+        // Implement your database query here and return the due date
+        return LocalDate.now(); // Dummy implementation, replace with actual query result
+    }
+    
+    
+    
+    
+    
+    
+    private LocalDate queryDueDateFromDatabase(int bookID, String studentID) {
+        LocalDate dueDate = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT due_date FROM student_borrowing WHERE book_id = ? AND student_id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, bookID);
+            statement.setString(2, studentID);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                dueDate = resultSet.getDate("due_date").toLocalDate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return dueDate;
+    }
+
+    private void updateDatabase(int bookID, String studentID) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "DELETE FROM student_borrowing WHERE book_id = ? AND student_id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, bookID);
+            statement.setString(2, studentID);
+            statement.executeUpdate();
+            
+            // Add another SQL statement to delete from another table if needed
+            String deleteStudentSql = "DELETE FROM student_list WHERE student_id = ?";
+            statement = connection.prepareStatement(deleteStudentSql);
+            statement.setString(1, studentID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    
+    
+    
+    
+    
+    private void updateBookStatus(int bookID, String status) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "UPDATE books SET status = ? WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, status);
+            statement.setInt(2, bookID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -572,7 +763,71 @@ public class BookReturningPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void return_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_return_btnActionPerformed
-        // TODO add your handling code here:
+         // TODO add your handling code here:
+        int bookID = Integer.parseInt(book_id.getText());
+            String studentID = returner_id.getText();
+
+            // Get the current date
+            LocalDate returnDate = LocalDate.now();
+
+            // Query the database to retrieve the due date for the book borrowed by the student
+            LocalDate dueDate = queryDueDateFromDatabase(bookID, studentID);
+
+            // Check if the return date is past the due date
+            if (returnDate.isAfter(dueDate)) {
+                // Calculate penalty
+                long daysLate = ChronoUnit.DAYS.between(dueDate, returnDate);
+                int penaltyAmount = (int) (daysLate * 20); // Penalty is 20 pesos per day late
+
+                // Show a confirmation message to proceed to payment
+                int confirm = JOptionPane.showConfirmDialog(this, "You have a due date balance. Proceed to payment?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // Open PenaltyPanel and display the penalty amount
+                    panel_content.removeAll();
+
+                    // Create a new instance of PenaltyPanel and pass panel_content
+                    PenaltyPanel penaltyPanel = new PenaltyPanel(panel_content, penaltyAmount, bookID, studentID, this);
+
+                    // Add PenaltyPanel to panel_content JPanel
+                    panel_content.add(penaltyPanel);
+
+                    // Make panel_content JPanel visible
+                    panel_content.setVisible(true);
+
+                    // Repaint and revalidate panel_content JPanel
+                    panel_content.revalidate();
+                    panel_content.repaint();
+                } else {
+                    // Inform the user that payment was declined
+                    JOptionPane.showMessageDialog(this, "Payment declined. Book cannot be returned.");
+                }
+            } else {
+                // Book returned on time, no penalty
+
+                panel_content.removeAll();
+
+                // Create a new instance of WhosBorrowingPanel and pass panel_content
+                NoPenaltyDuePanel noPenaltyDuePanel = new NoPenaltyDuePanel(panel_content);
+
+                // Add WhosBorrowingPanel to panel_content JPanel
+                panel_content.add(noPenaltyDuePanel);
+
+                // Make panel_content JPanel visible
+                panel_content.setVisible(true);
+
+                // Repaint and revalidate panel_content JPanel
+                panel_content.revalidate();
+                panel_content.repaint();
+
+                // Update the database and set book status to "Available"
+                updateDatabase(bookID, studentID);
+                updateBookStatus(bookID, "Available");
+                clearFields();
+            }
+
+        
+        
+
         
     }//GEN-LAST:event_return_btnActionPerformed
 

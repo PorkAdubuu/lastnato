@@ -1,9 +1,16 @@
 
+import com.sun.jdi.connect.spi.Connection;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -16,24 +23,41 @@ import javax.swing.JPanel;
  */
 public class PenaltyPanel extends javax.swing.JPanel {
 
-    
-    
-    
-    public PenaltyPanel() {
+    private int penaltyAmount;
+    private int bookID; 
+    private String studentID; 
+    private BookReturningPanel bookReturningPanel;
+    private int amountPaid;
+    private final JPanel panel_content;
+  
+    public PenaltyPanel(JPanel panel_content, int penaltyAmount, int bookID, String studentID, BookReturningPanel bookReturningPanel) {
+        this.penaltyAmount = penaltyAmount;
+        this.bookID = bookID; 
+        this.studentID = studentID;
+        this.bookReturningPanel = bookReturningPanel;
+        
         initComponents();
+        setPenaltyAmount(penaltyAmount);
+        
+        
+        this.panel_content = panel_content;
         
         
         
+        amount_paid.getDocument().addDocumentListener(new DocumentListener() {
+        public void insertUpdate(DocumentEvent e) {
+            updateChange();
+        }
+        public void removeUpdate(DocumentEvent e) {
+            updateChange();
+        }
+        public void changedUpdate(DocumentEvent e) {
+            updateChange();
+        }
+       
         
         
-        
-        
-
-        
-        
-        
-        
-        
+        });
         
         
         
@@ -220,14 +244,60 @@ public class PenaltyPanel extends javax.swing.JPanel {
 
     //methods
     
-   
     
     
     
     
     
     
+    public int getAmountPaid() {
+        return amountPaid;
+    }
     
+    private void updateChange() {
+        try {
+            int amountPaid = Integer.parseInt(amount_paid.getText());
+            if (amountPaid >= penaltyAmount) {
+                int change = amountPaid - penaltyAmount;
+                amount_change.setText(change + " Pesos");
+            } else {
+                amount_change.setText("");
+            }
+        } catch (NumberFormatException ex) {
+            amount_change.setText("Please enter a valid number");
+        }
+    }
+    
+    
+    
+    
+    
+   private void setPenaltyAmount(int penaltyAmount) {
+        amount_due.setText(penaltyAmount + " pesos");
+    }
+    
+    
+    private void updateDatabase(int bookID, String studentID) {
+        // Implement your database update logic here
+        // This is just a placeholder method, replace it with your actual implementation
+        System.out.println("Updating database for bookID: " + bookID + ", studentID: " + studentID);
+    }
+    
+    
+    
+    private void calculateChange() {
+        try {
+            int amountPaid = Integer.parseInt(amount_paid.getText());
+            if (amountPaid < penaltyAmount) {
+                JOptionPane.showMessageDialog(this, "invalid amount.");
+            } else {
+                int change = amountPaid - penaltyAmount;
+                amount_change.setText(change + " Pesos");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "");
+        }
+    }
     
     
     
@@ -250,7 +320,11 @@ public class PenaltyPanel extends javax.swing.JPanel {
 
     private void cancel_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancel_btnMouseClicked
         // TODO add your handling code here:
-        
+        setVisible(false);
+
+        // Hide the booklist_content JPanel
+        JPanel parent = (JPanel) this.getParent();
+        parent.setVisible(false);
     }//GEN-LAST:event_cancel_btnMouseClicked
 
     private void cancel_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancel_btnMouseEntered
@@ -265,7 +339,28 @@ public class PenaltyPanel extends javax.swing.JPanel {
 
     private void confirm_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirm_btnMouseClicked
         // TODO add your handling code here:
+        int amountPaid;
+        try {
+            amountPaid = Integer.parseInt(amount_paid.getText());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid number.");
+            return;
+        }
+
+        if (amountPaid >= penaltyAmount) {
+            bookReturningPanel.updateDatabase(bookID, studentID, amountPaid); // Call updateDatabase from BookReturningPanel
+            
+            this.setVisible(false);
+            JPanel parent = (JPanel) this.getParent();
+             parent.setVisible(false);
+             JOptionPane.showMessageDialog(this, "Payment Accepted, Book successfully returned.");
+             
+        } else {
+            JOptionPane.showMessageDialog(this, "Amount paid does not match or is less than the amount due. Please enter the correct amount.");
+        }
+    
         
+           
     
     }//GEN-LAST:event_confirm_btnMouseClicked
 
