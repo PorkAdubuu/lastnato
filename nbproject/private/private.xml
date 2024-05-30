@@ -4,20 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/BookBorrowingPanel.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/TeacherListDAO.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/StudentListDAO.java</file>
+            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/NoPenaltyDuePanel.java</file>
+            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/BookReturningPanel.java</file>
+            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/BorrowerDetails.java</file>
             <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/LoginWindow.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/TeacherBorrowingPanel.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/Main.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/StudentListPanel.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/AddBookPanel.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/TeacherMain.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/PlaceholderTextField.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/TeacherListPanel.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/BookDAO.java</file>
             <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/DashboardLibrary.java</file>
+            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/TeacherBorrowingPanel.java</file>
+            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/DatabaseConnection.java</file>
+            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/PenaltyPanel.java</file>
             <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/BooklistPanel.java</file>
-            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/WhosBorrowingPanel.java</file>
+            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/StudentListPanel.java</file>
+            <file>file:/C:/Users/Neighas/Documents/NetBeansProjects/lastnato/src/DatabaseHelper.java</file>
         </group>
     </open-files>
 </project-private>

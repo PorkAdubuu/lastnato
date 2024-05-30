@@ -378,6 +378,259 @@ public class BookReturningPanel extends javax.swing.JPanel {
     
     //methods
     
+    // Method to determine if the user is a student
+    private boolean isStudent(String userID) {
+        // Implement logic to check if the user is a student
+        // For example, you can query the student_borrowing or student_list table to check if the user exists
+        boolean isStudent = false;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM student_borrowing WHERE student_id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, userID);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                isStudent = resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return isStudent;
+    }
+    
+        private void handleStudentBookReturn(int bookID, String studentID) {
+
+         LocalDate returnDate = LocalDate.now();
+
+            // Query the database to retrieve the due date for the book borrowed by the student
+            LocalDate dueDate = queryDueDateFromDatabase(bookID, studentID);
+
+        if (returnDate.isAfter(dueDate)) {
+                        // Calculate penalty
+                        long daysLate = ChronoUnit.DAYS.between(dueDate, returnDate);
+                        int penaltyAmount = (int) (daysLate * 20); // Penalty is 20 pesos per day late
+
+                        // Show a confirmation message to proceed to payment
+                        int confirm = JOptionPane.showConfirmDialog(this, "You have a due date balance. Proceed to payment?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            // Open PenaltyPanel and display the penalty amount
+                            panel_content.removeAll();
+
+                            // Create a new instance of PenaltyPanel and pass panel_content
+                            PenaltyPanel penaltyPanel = new PenaltyPanel(panel_content, penaltyAmount, bookID, studentID, this);
+
+                            // Add PenaltyPanel to panel_content JPanel
+                            panel_content.add(penaltyPanel);
+
+                            // Make panel_content JPanel visible
+                            panel_content.setVisible(true);
+
+                            // Repaint and revalidate panel_content JPanel
+                            panel_content.revalidate();
+                            panel_content.repaint();
+                        } else {
+                            // Inform the user that payment was declined
+                            JOptionPane.showMessageDialog(this, "Payment declined. Book cannot be returned.");
+                        }
+                    } else {
+                        // Book returned on time, no penalty
+
+                        panel_content.removeAll();
+
+                        // Create a new instance of WhosBorrowingPanel and pass panel_content
+                        NoPenaltyDuePanel noPenaltyDuePanel = new NoPenaltyDuePanel(panel_content);
+
+                        // Add WhosBorrowingPanel to panel_content JPanel
+                        panel_content.add(noPenaltyDuePanel);
+
+                        // Make panel_content JPanel visible
+                        panel_content.setVisible(true);
+
+                        // Repaint and revalidate panel_content JPanel
+                        panel_content.revalidate();
+                        panel_content.repaint();
+
+                        // Update the database and set book status to "Available"
+                        updateDatabase(bookID, studentID);
+                        updateBookStatus(bookID, "Available");
+                        clearFields();
+                    }
+
+        }
+    
+    
+    // Method to handle teacher book return
+    private void handleTeacherBookReturn(int bookID, String employerID) {
+        // Update the book status to "Available"
+        updateBookStatus(bookID, "Available");
+
+        // Delete the borrowing record from teacher_borrowing and teacher_list tables
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+
+            // Begin transaction
+            connection.setAutoCommit(false);
+
+            // Delete from teacher_borrowing
+            String deleteBorrowingSql = "DELETE FROM teacher_borrowing WHERE book_id = ? AND employers_id = ?";
+            statement = connection.prepareStatement(deleteBorrowingSql);
+            statement.setInt(1, bookID);
+            statement.setString(2, employerID);
+            statement.executeUpdate();
+            statement.close();
+
+            // Delete from teacher_list
+            String deleteListSql = "DELETE FROM teacher_list WHERE employers_id = ?";
+            statement = connection.prepareStatement(deleteListSql);
+            statement.setString(1, employerID);
+            statement.executeUpdate();
+
+            // Commit transaction
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.setAutoCommit(true);  // Reset auto-commit to true
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Inform the user that the book was returned successfully
+        panel_content.removeAll();
+
+                        // Create a new instance of WhosBorrowingPanel and pass panel_content
+                        NoPenaltyDuePanel noPenaltyDuePanel = new NoPenaltyDuePanel(panel_content);
+
+                        // Add WhosBorrowingPanel to panel_content JPanel
+                        panel_content.add(noPenaltyDuePanel);
+
+                        // Make panel_content JPanel visible
+                        panel_content.setVisible(true);
+
+                        // Repaint and revalidate panel_content JPanel
+                        panel_content.revalidate();
+                        panel_content.repaint();
+
+                        // Update the database and set book status to "Available"
+                        updateDatabase(bookID, studentID);
+                        updateBookStatus(bookID, "Available");
+                        clearFields();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //END
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -765,65 +1018,18 @@ public class BookReturningPanel extends javax.swing.JPanel {
     private void return_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_return_btnActionPerformed
          // TODO add your handling code here:
         int bookID = Integer.parseInt(book_id.getText());
-            String studentID = returner_id.getText();
+    String userID = returner_id.getText();
 
-            // Get the current date
-            LocalDate returnDate = LocalDate.now();
-
-            // Query the database to retrieve the due date for the book borrowed by the student
-            LocalDate dueDate = queryDueDateFromDatabase(bookID, studentID);
-
-            // Check if the return date is past the due date
-            if (returnDate.isAfter(dueDate)) {
-                // Calculate penalty
-                long daysLate = ChronoUnit.DAYS.between(dueDate, returnDate);
-                int penaltyAmount = (int) (daysLate * 20); // Penalty is 20 pesos per day late
-
-                // Show a confirmation message to proceed to payment
-                int confirm = JOptionPane.showConfirmDialog(this, "You have a due date balance. Proceed to payment?", "Confirmation", JOptionPane.YES_NO_OPTION);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    // Open PenaltyPanel and display the penalty amount
-                    panel_content.removeAll();
-
-                    // Create a new instance of PenaltyPanel and pass panel_content
-                    PenaltyPanel penaltyPanel = new PenaltyPanel(panel_content, penaltyAmount, bookID, studentID, this);
-
-                    // Add PenaltyPanel to panel_content JPanel
-                    panel_content.add(penaltyPanel);
-
-                    // Make panel_content JPanel visible
-                    panel_content.setVisible(true);
-
-                    // Repaint and revalidate panel_content JPanel
-                    panel_content.revalidate();
-                    panel_content.repaint();
-                } else {
-                    // Inform the user that payment was declined
-                    JOptionPane.showMessageDialog(this, "Payment declined. Book cannot be returned.");
-                }
-            } else {
-                // Book returned on time, no penalty
-
-                panel_content.removeAll();
-
-                // Create a new instance of WhosBorrowingPanel and pass panel_content
-                NoPenaltyDuePanel noPenaltyDuePanel = new NoPenaltyDuePanel(panel_content);
-
-                // Add WhosBorrowingPanel to panel_content JPanel
-                panel_content.add(noPenaltyDuePanel);
-
-                // Make panel_content JPanel visible
-                panel_content.setVisible(true);
-
-                // Repaint and revalidate panel_content JPanel
-                panel_content.revalidate();
-                panel_content.repaint();
-
-                // Update the database and set book status to "Available"
-                updateDatabase(bookID, studentID);
-                updateBookStatus(bookID, "Available");
-                clearFields();
-            }
+    // Check if the user is a student or a teacher
+    boolean isStudent = isStudent(userID);
+    
+    if (isStudent) {
+        // Handle student book return
+        handleStudentBookReturn(bookID, userID);
+    } else {
+        // Handle teacher book return
+        handleTeacherBookReturn(bookID, userID);
+    }
 
         
         
