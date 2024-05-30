@@ -35,8 +35,8 @@ public class BooklistPanel extends javax.swing.JPanel {
     
     public BooklistPanel() {
         initComponents();
-        
-        //make the add panel visible
+             
+       
        
         
         
@@ -247,7 +247,24 @@ public class BooklistPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-
+        int selectedRow = jTable1.getSelectedRow();
+        
+    if (selectedRow != -1) {
+        String status = (String) jTable1.getValueAt(selectedRow, 7); // Assuming status is in the 7th column
+        if (!status.equalsIgnoreCase("available")) {
+            Object value = jTable1.getValueAt(selectedRow, 0);
+            String bookId = null;
+            if (value instanceof Integer) {
+                bookId = String.valueOf(value);
+            } else if (value instanceof String) {
+                bookId = (String) value;
+            }
+            // Call the method to show borrower details
+            showBorrowerDetails(bookId);
+        } else {
+            
+        }
+    }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
@@ -334,6 +351,29 @@ public class BooklistPanel extends javax.swing.JPanel {
     
         //method 
         
+    
+    
+    private void showBorrowerDetails(String bookId) {
+        BorrowerDetailsDialog detailsDialog = new BorrowerDetailsDialog(bookId);
+        detailsDialog.setVisible(true);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
         private void exportToExcel() {
         String url = "jdbc:mysql://localhost:3306/librarydb";
         String user = "root";
