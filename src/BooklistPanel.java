@@ -1,5 +1,8 @@
 import static com.itextpdf.text.pdf.PdfFileSpecification.url;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -248,10 +251,7 @@ public class BooklistPanel extends javax.swing.JPanel {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int selectedRow = jTable1.getSelectedRow();
-        
-    if (selectedRow != -1) {
-        String status = (String) jTable1.getValueAt(selectedRow, 7); // Assuming status is in the 7th column
-        if (!status.equalsIgnoreCase("available")) {
+        if (selectedRow != -1) {
             Object value = jTable1.getValueAt(selectedRow, 0);
             String bookId = null;
             if (value instanceof Integer) {
@@ -259,12 +259,16 @@ public class BooklistPanel extends javax.swing.JPanel {
             } else if (value instanceof String) {
                 bookId = (String) value;
             }
-            // Call the method to show borrower details
-            showBorrowerDetails(bookId);
-        } else {
-            
+            // Check if the book status is available
+            String status = jTable1.getValueAt(selectedRow, 7).toString(); // Assuming status is at index 7
+            if (!"Available".equals(status)) {
+                // If status is not available, show borrower details
+                showBorrowerDetails(bookId);
+            } else {
+                // If status is available, copy book ID to clipboard
+                copyToClipboard(Integer.parseInt(bookId));
+            }
         }
-    }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
@@ -359,7 +363,11 @@ public class BooklistPanel extends javax.swing.JPanel {
     }
     
     
-    
+    private void copyToClipboard(int id) {
+    StringSelection stringSelection = new StringSelection(String.valueOf(id));
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    clipboard.setContents(stringSelection, null);
+}
     
     
     
