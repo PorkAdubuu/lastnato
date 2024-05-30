@@ -353,7 +353,23 @@ public class PenaltyPanel extends javax.swing.JPanel {
             this.setVisible(false);
             JPanel parent = (JPanel) this.getParent();
              parent.setVisible(false);
-             JOptionPane.showMessageDialog(this, "Payment Accepted, Book successfully returned.");
+             
+             panel_content.removeAll();
+             PaymentAcceptedPanel paymentAcceptedPanel = new PaymentAcceptedPanel(panel_content);
+
+                        // Add WhosBorrowingPanel to panel_content JPanel
+                        panel_content.add(paymentAcceptedPanel);
+
+                        // Make panel_content JPanel visible
+                        panel_content.setVisible(true);
+
+                        // Repaint and revalidate panel_content JPanel
+                        panel_content.revalidate();
+                        panel_content.repaint();
+             
+             
+             
+             
              
         } else {
             JOptionPane.showMessageDialog(this, "Amount paid does not match or is less than the amount due. Please enter the correct amount.");

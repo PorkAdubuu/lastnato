@@ -230,8 +230,7 @@ public class StudentListPanel extends javax.swing.JPanel {
     String url = "jdbc:mysql://localhost:3306/librarydb";
     String user = "root";
     String password = "";
-    String query = "SELECT * FROM student_list WHERE student_id LIKE ? OR student_name LIKE ? OR year LIKE ? OR section LIKE ? OR contact_no LIKE ?";
-
+    String query = "SELECT * FROM student_list WHERE student_id LIKE ? OR student_name LIKE ? OR year LIKE ? OR section LIKE ?OR contact_no LIKE ?";
     tableModel.setRowCount(0);
 
     try (Connection connection = DriverManager.getConnection(url, user, password);
