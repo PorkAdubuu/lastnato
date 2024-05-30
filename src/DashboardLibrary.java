@@ -141,7 +141,6 @@ public class DashboardLibrary extends javax.swing.JFrame {
         teacher_btn = new javax.swing.JLabel();
         borrowing_btn = new javax.swing.JLabel();
         returning_btn = new javax.swing.JLabel();
-        penalty_btn = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -418,18 +417,13 @@ public class DashboardLibrary extends javax.swing.JFrame {
         });
 
         returning_btn.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        returning_btn.setText("Book Returning |");
+        returning_btn.setText("Book Returning");
         returning_btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 returning_btnMouseClicked(evt);
             }
-        });
-
-        penalty_btn.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        penalty_btn.setText("Penalty");
-        penalty_btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                penalty_btnMouseClicked(evt);
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                returning_btnMouseEntered(evt);
             }
         });
 
@@ -438,7 +432,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(750, Short.MAX_VALUE)
+                .addContainerGap(813, Short.MAX_VALUE)
                 .addComponent(booklist_btn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
@@ -452,9 +446,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
                 .addComponent(borrowing_btn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(returning_btn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(penalty_btn)
-                .addGap(50, 50, 50))
+                .addGap(47, 47, 47))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -467,8 +459,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
                     .addComponent(student_btn)
                     .addComponent(teacher_btn)
                     .addComponent(borrowing_btn)
-                    .addComponent(returning_btn)
-                    .addComponent(penalty_btn))
+                    .addComponent(returning_btn))
                 .addGap(531, 531, 531))
         );
 
@@ -560,13 +551,22 @@ public class DashboardLibrary extends javax.swing.JFrame {
 
     private void returning_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_returning_btnMouseClicked
         // TODO add your handling code here:
+        panel_content.removeAll();
+
+        // Create a new instance of WhosBorrowingPanel and pass panel_content
+        BookReturningPanel bookReturningPanel = new BookReturningPanel(panel_content);
+
+        // Add WhosBorrowingPanel to panel_content JPanel
+        panel_content.add(bookReturningPanel);
+
+        // Make panel_content JPanel visible
+        panel_content.setVisible(true);
+
+        // Repaint and revalidate panel_content JPanel
+        panel_content.revalidate();
+        panel_content.repaint();
 
     }//GEN-LAST:event_returning_btnMouseClicked
-
-    private void penalty_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_penalty_btnMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_penalty_btnMouseClicked
 
     private void booklist_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_booklist_btnMouseEntered
         // TODO add your handling code here:
@@ -654,6 +654,11 @@ public class DashboardLibrary extends javax.swing.JFrame {
         search_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }//GEN-LAST:event_search_btnMouseExited
 
+    private void returning_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_returning_btnMouseEntered
+        // TODO add your handling code here:
+        returning_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_returning_btnMouseEntered
+
     /**
      * @param args the command line arguments
      */
@@ -740,7 +745,6 @@ public class DashboardLibrary extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panel_content;
-    private javax.swing.JLabel penalty_btn;
     private javax.swing.JLabel returning_btn;
     private javax.swing.JTextField search_bar;
     private javax.swing.JLabel search_btn;
