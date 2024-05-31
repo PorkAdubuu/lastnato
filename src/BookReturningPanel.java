@@ -58,6 +58,7 @@ public class BookReturningPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         panel_content = new javax.swing.JPanel();
+        close = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -90,8 +91,8 @@ public class BookReturningPanel extends javax.swing.JPanel {
         returner_section = new javax.swing.JTextField();
         returner_contact = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        return_btn = new javax.swing.JButton();
-        clear_btn = new javax.swing.JButton();
+        clear_btn = new javax.swing.JLabel();
+        return_btn = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1290, 463));
@@ -101,6 +102,17 @@ public class BookReturningPanel extends javax.swing.JPanel {
         panel_content.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 0)));
         panel_content.setLayout(new java.awt.BorderLayout());
         add(panel_content, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 70, 480, 350));
+
+        close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/close.png"))); // NOI18N
+        close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+        });
+        add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 10, 50, 40));
 
         jPanel1.setBackground(new java.awt.Color(70, 134, 242));
 
@@ -347,21 +359,33 @@ public class BookReturningPanel extends javax.swing.JPanel {
 
         add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 90, 380, 310));
 
-        return_btn.setText("Return");
-        return_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                return_btnActionPerformed(evt);
+        clear_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/clear-btn.png"))); // NOI18N
+        clear_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clear_btnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                clear_btnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                clear_btnMouseExited(evt);
             }
         });
-        add(return_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 420, -1, -1));
+        add(clear_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 410, -1, -1));
 
-        clear_btn.setText("Clear");
-        clear_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clear_btnActionPerformed(evt);
+        return_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/return-btnn.png"))); // NOI18N
+        return_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                return_btnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                return_btnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                return_btnMouseExited(evt);
             }
         });
-        add(clear_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 420, -1, -1));
+        add(return_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 410, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     
@@ -1015,32 +1039,62 @@ public class BookReturningPanel extends javax.swing.JPanel {
         fetchBookDetails();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void return_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_return_btnActionPerformed
-         // TODO add your handling code here:
-        int bookID = Integer.parseInt(book_id.getText());
-    String userID = returner_id.getText();
+    private void closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseClicked
+        // TODO add your handling code here:
 
-    // Check if the user is a student or a teacher
-    boolean isStudent = isStudent(userID);
-    
-    if (isStudent) {
-        // Handle student book return
-        handleStudentBookReturn(bookID, userID);
-    } else {
-        // Handle teacher book return
-        handleTeacherBookReturn(bookID, userID);
-    }
+        setVisible(false);
 
-        
-        
+        // Hide the booklist_content JPanel
+        JPanel parent = (JPanel) this.getParent();
+        parent.setVisible(false);
+    }//GEN-LAST:event_closeMouseClicked
 
-        
-    }//GEN-LAST:event_return_btnActionPerformed
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        // TODO add your handling code here:
+        close.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_closeMouseEntered
 
-    private void clear_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_btnActionPerformed
+    private void clear_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clear_btnMouseClicked
         // TODO add your handling code here:
         clearFields();
-    }//GEN-LAST:event_clear_btnActionPerformed
+        
+    }//GEN-LAST:event_clear_btnMouseClicked
+
+    private void clear_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clear_btnMouseEntered
+        // TODO add your handling code here:
+        clear_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_clear_btnMouseEntered
+
+    private void clear_btnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clear_btnMouseExited
+        // TODO add your handling code here:
+        clear_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_clear_btnMouseExited
+
+    private void return_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_return_btnMouseClicked
+        // TODO add your handling code here:
+        int bookID = Integer.parseInt(book_id.getText());
+        String userID = returner_id.getText();
+
+        // Check if the user is a student or a teacher
+        boolean isStudent = isStudent(userID);
+
+        if (isStudent) {
+            // Handle student book return
+            handleStudentBookReturn(bookID, userID);
+        } else {
+            // Handle teacher book return
+            handleTeacherBookReturn(bookID, userID);
+        }
+    }//GEN-LAST:event_return_btnMouseClicked
+
+    private void return_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_return_btnMouseEntered
+        // TODO add your handling code here:
+        return_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_return_btnMouseEntered
+
+    private void return_btnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_return_btnMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_return_btnMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1048,7 +1102,8 @@ public class BookReturningPanel extends javax.swing.JPanel {
     private javax.swing.JTextField book_id;
     private javax.swing.JTextField book_isbn;
     private javax.swing.JTextField book_title;
-    private javax.swing.JButton clear_btn;
+    private javax.swing.JLabel clear_btn;
+    private javax.swing.JLabel close;
     private javax.swing.JLabel due_date;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -1073,7 +1128,7 @@ public class BookReturningPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel panel_content;
     private javax.swing.JLabel print_date_borrowed;
-    private javax.swing.JButton return_btn;
+    private javax.swing.JLabel return_btn;
     private javax.swing.JTextField returner_contact;
     private javax.swing.JTextField returner_id;
     private javax.swing.JTextField returner_name;

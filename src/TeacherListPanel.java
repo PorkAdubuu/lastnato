@@ -63,6 +63,9 @@ public class TeacherListPanel extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 closeMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
         });
         add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 10, 50, 40));
 
@@ -223,6 +226,11 @@ public class TeacherListPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         refresh_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }//GEN-LAST:event_refresh_btnMouseExited
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        // TODO add your handling code here:
+        close.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_closeMouseEntered
 
     
     //methods 
