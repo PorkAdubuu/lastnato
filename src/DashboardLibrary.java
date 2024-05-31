@@ -147,6 +147,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1366, 768));
         setPreferredSize(new java.awt.Dimension(1366, 768));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panel_content.setBackground(new java.awt.Color(255, 255, 255));

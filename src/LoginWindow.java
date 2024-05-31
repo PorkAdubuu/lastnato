@@ -74,6 +74,7 @@ public class LoginWindow extends javax.swing.JFrame {
         setBackground(new java.awt.Color(70, 134, 242));
         setMinimumSize(new java.awt.Dimension(1000, 550));
         setPreferredSize(new java.awt.Dimension(1000, 550));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
