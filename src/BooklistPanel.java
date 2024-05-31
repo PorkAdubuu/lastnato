@@ -330,6 +330,12 @@ public class BooklistPanel extends javax.swing.JPanel {
     private void refresh_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refresh_btnMouseClicked
         // TODO add your handling code here:
         fetchBooks();
+        BookStatusUpdater.updateBookStatus();
+        StudentListDAO studentListDAO = new StudentListDAO();
+        
+        
+        StudentListPanel studentListPanel = new StudentListPanel();
+        studentListPanel.loadStudentList();
     }//GEN-LAST:event_refresh_btnMouseClicked
 
     private void refresh_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refresh_btnMouseEntered

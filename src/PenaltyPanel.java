@@ -29,6 +29,7 @@ public class PenaltyPanel extends javax.swing.JPanel {
     private BookReturningPanel bookReturningPanel;
     private int amountPaid;
     private final JPanel panel_content;
+    
   
     public PenaltyPanel(JPanel panel_content, int penaltyAmount, int bookID, String studentID, BookReturningPanel bookReturningPanel) {
         this.penaltyAmount = penaltyAmount;
@@ -367,7 +368,7 @@ public class PenaltyPanel extends javax.swing.JPanel {
                         panel_content.revalidate();
                         panel_content.repaint();
              
-             
+             bookReturningPanel.clearFields();
              
              
              

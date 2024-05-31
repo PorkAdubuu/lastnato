@@ -960,7 +960,7 @@ public class BookReturningPanel extends javax.swing.JPanel {
     
     
 
-    private void clearFields() {
+    public void clearFields() {
         book_id.setText("");
         book_title.setText("");
         book_isbn.setText("");

@@ -421,7 +421,7 @@ public class TeacherListPanel extends javax.swing.JPanel {
         tableModel = (DefaultTableModel) jTable1.getModel();
     }
     
-    private void loadTeacherList() {
+    void loadTeacherList() {
         String url = "jdbc:mysql://localhost:3306/librarydb";
         String user = "root";
         String password = "";

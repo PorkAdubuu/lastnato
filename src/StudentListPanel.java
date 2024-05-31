@@ -435,7 +435,7 @@ public class StudentListPanel extends javax.swing.JPanel {
         tableModel = (DefaultTableModel) jTable1.getModel();
     }
     
-    private void loadStudentList() {
+    void loadStudentList() {
         String url = "jdbc:mysql://localhost:3306/librarydb";
         String user = "root";
         String password = "";

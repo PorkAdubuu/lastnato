@@ -440,6 +440,13 @@ public class TeacherBorrowingPanel extends javax.swing.JPanel {
     private void confirm_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirm_btnMouseClicked
         // TODO add your handling code here:
         submitBorrowingDetails();
+        BookStatusUpdater.updateBookStatus();
+        TeacherListDAO teacherListDAO = new TeacherListDAO();
+        teacherListDAO.updateTeacherList();
+                  
+        TeacherListPanel teacherListPanel = new TeacherListPanel();
+        teacherListPanel.loadTeacherList();
+                    
     }//GEN-LAST:event_confirm_btnMouseClicked
 
     private void confirm_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirm_btnMouseEntered

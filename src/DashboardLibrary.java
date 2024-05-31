@@ -488,6 +488,12 @@ public class DashboardLibrary extends javax.swing.JFrame {
         // Repaint booklist_content JPanel
         panel_content.revalidate();
         panel_content.repaint();
+        
+        BookStatusUpdater.updateBookStatus();
+                    StudentListDAO studentListDAO = new StudentListDAO();
+                    StudentListPanel studentListPanel = new StudentListPanel();
+                    studentListPanel.loadStudentList();
+        
     }//GEN-LAST:event_booklist_btnMouseClicked
 
     
@@ -511,6 +517,11 @@ public class DashboardLibrary extends javax.swing.JFrame {
         // Repaint and revalidate panel_content JPanel
         panel_content.revalidate();
         panel_content.repaint();
+        
+        StudentListDAO studentListDAO = new StudentListDAO();
+        studentListDAO.updateStudentList();
+        StudentListPanel studentListPanel = new StudentListPanel();
+        studentListPanel.loadStudentList();
     }//GEN-LAST:event_student_btnMouseClicked
 
     private void teacher_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_teacher_btnMouseClicked
@@ -529,6 +540,12 @@ public class DashboardLibrary extends javax.swing.JFrame {
         // Repaint and revalidate panel_content JPanel
         panel_content.revalidate();
         panel_content.repaint();
+        
+        TeacherListDAO teacherListDAO = new TeacherListDAO();
+        teacherListDAO.updateTeacherList();
+                  
+        
+        teacherListPanel.loadTeacherList();
     }//GEN-LAST:event_teacher_btnMouseClicked
 
     private void borrowing_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_borrowing_btnMouseClicked

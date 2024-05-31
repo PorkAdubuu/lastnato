@@ -890,6 +890,12 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
     private void confirm_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirm_btnMouseClicked
         // TODO add your handling code here:
         submitBorrowingDetails();
+        BookStatusUpdater.updateBookStatus();
+        
+        StudentListDAO studentListDAO = new StudentListDAO();
+        studentListDAO.updateStudentList();
+        StudentListPanel studentListPanel = new StudentListPanel();
+        studentListPanel.loadStudentList();
     }//GEN-LAST:event_confirm_btnMouseClicked
 
     private void cancel_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancel_btnMouseClicked

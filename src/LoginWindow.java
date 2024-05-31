@@ -284,6 +284,16 @@ public class LoginWindow extends javax.swing.JFrame {
                     // Proceed to the next window (e.g., main application window)
                     new DashboardLibrary().setVisible(true);
                     this.dispose();
+                    
+                    StudentListDAO studentListDAO = new StudentListDAO();
+                    studentListDAO.updateStudentList();
+                    StudentListPanel studentListPanel = new StudentListPanel();
+                    studentListPanel.loadStudentList();
+                    
+                    TeacherListDAO teacherListDAO = new TeacherListDAO();
+                    teacherListDAO.updateTeacherList();
+                    TeacherListPanel teacherListPanel = new TeacherListPanel();
+                    teacherListPanel.loadTeacherList();
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid username or password.");
                 }
