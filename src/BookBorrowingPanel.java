@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,6 +19,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.text.AbstractDocument;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -64,6 +67,31 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
             }
         });
                 
+       
+       
+       AbstractDocument docId = (AbstractDocument) stdnt_id.getDocument();
+        docId.setDocumentFilter(new UpperCaseDocumentFilter());
+        
+        // Set DocumentFilter for stdnt_name
+        AbstractDocument docName = (AbstractDocument) stdnt_name.getDocument();
+        docName.setDocumentFilter(new UpperCaseDocumentFilter());
+        
+        // Set DocumentFilter for stdnt_section
+        AbstractDocument docSection = (AbstractDocument) stdnt_section.getDocument();
+        docSection.setDocumentFilter(new UpperCaseDocumentFilter());
+       
+       stdnt_contact.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) {
+                    e.consume(); // Consume the event to prevent the character from being typed
+                }
+            }
+        });
+       
+       
+       
         
     }
     private void customInitComponents() {
@@ -677,90 +705,96 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
         
         //method for sumbitting 
         private void submitBorrowingDetails() {
-                String studentId = stdnt_id.getText();
+            String studentId = stdnt_id.getText();
 
-                // Check if the student has already borrowed two books
-                if (isStudentAtBorrowingLimit(studentId)) {
-                    JOptionPane.showMessageDialog(this, "You have reached the maximum borrowing limit (2 books).", "Borrowing Limit Exceeded", JOptionPane.WARNING_MESSAGE);
-                    return; // Stop the borrowing process if the limit is reached
+            // Check if the student has overdue books (unpaid penalties)
+            if (hasOverdueBooks(studentId)) {
+                JOptionPane.showMessageDialog(this, "You have overdue books. Please return them before borrowing new ones.", "Overdue Books", JOptionPane.WARNING_MESSAGE);
+                return; // Stop the borrowing process if there are overdue books
+            }
+
+            // Check if the student has already borrowed two books
+            if (isStudentAtBorrowingLimit(studentId)) {
+                JOptionPane.showMessageDialog(this, "You have reached the maximum borrowing limit (2 books).", "Borrowing Limit Exceeded", JOptionPane.WARNING_MESSAGE);
+                return; // Stop the borrowing process if the limit is reached
+            }
+
+            // Check if any of the required fields are blank
+            if (studentId.isEmpty() || stdnt_name.getText().isEmpty() || stdnt_section.getText().isEmpty()
+                    || stdnt_contact.getText().isEmpty() || book_id.getText().isEmpty()
+                    || book_title.getText().isEmpty() || book_isbn.getText().isEmpty()
+                    || book_category.getSelectedItem().toString().equals("Select Category")
+                    || date_borrowed.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                return; // Stop further execution
+            }
+
+            String studentName = stdnt_name.getText();
+            String section = stdnt_section.getText();
+            String year = year_combo.getSelectedItem().toString();
+            String contactNo = stdnt_contact.getText();
+            int bookId = Integer.parseInt(book_id.getText());
+            String bookTitle = book_title.getText();
+            String bookIsbn = book_isbn.getText();
+            String bookCategory = book_category.getSelectedItem().toString();
+            Date borrowedDate = date_borrowed.getDate();
+
+            // Calculate due date
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(borrowedDate);
+            cal.add(Calendar.DAY_OF_YEAR, 3);
+            Date dueDate = cal.getTime();
+
+            String url = "jdbc:mysql://localhost:3306/librarydb";
+            String user = "root";
+            String password = "";
+
+            String sql = "INSERT INTO student_borrowing (student_name, student_id, year, section, contact_no, book_id, book_title, book_isbn, book_category, date_borrowed, due_date) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            try (Connection connection = DriverManager.getConnection(url, user, password);
+                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+                // Retrieve the book status and category
+                String status = bookDAO.getBookStatus(bookId);
+                String category = bookDAO.getBookCategory(bookId);
+
+                if (category.equals("Academic")) {
+                    // Academic books cannot be borrowed
+                    JOptionPane.showMessageDialog(this, "Academic books are only allowed inside the library.", "Borrowing Restricted", JOptionPane.WARNING_MESSAGE);
+                } else if (status.equals("Available")) {
+                    // Proceed with borrowing
+                    pstmt.setString(1, studentName);
+                    pstmt.setString(2, studentId);
+                    pstmt.setString(3, year);
+                    pstmt.setString(4, section);
+                    pstmt.setString(5, contactNo);
+                    pstmt.setInt(6, bookId);
+                    pstmt.setString(7, bookTitle);
+                    pstmt.setString(8, bookIsbn);
+                    pstmt.setString(9, bookCategory);
+                    pstmt.setDate(10, new java.sql.Date(borrowedDate.getTime()));
+                    pstmt.setDate(11, new java.sql.Date(dueDate.getTime()));
+
+                    pstmt.executeUpdate();
+                    JOptionPane.showMessageDialog(this, "Borrowing details submitted successfully!");
+
+                    // Set status based on borrowing date
+                    Date today = new Date();
+                    boolean sameDay = borrowedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                                          .equals(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                    String newStatus = sameDay ? "Borrowed" : "Reserved";
+
+                    // Update book status
+                    bookDAO.updateBookStatus(bookId, newStatus);
+                } else {
+                    // Book is not available for borrowing
+                    JOptionPane.showMessageDialog(this, "This book is not available for borrowing.", "Book Unavailable", JOptionPane.WARNING_MESSAGE);
                 }
-                
-                // Check if any of the required fields are blank
-                if (studentId.isEmpty() || stdnt_name.getText().isEmpty() || stdnt_section.getText().isEmpty()
-                        || stdnt_contact.getText().isEmpty() || book_id.getText().isEmpty()
-                        || book_title.getText().isEmpty() || book_isbn.getText().isEmpty()
-                        || book_category.getSelectedItem().toString().equals("Select Category")
-                        || date_borrowed.getDate() == null) {
-                    JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return; // Stop further execution
-                }
 
-                String studentName = stdnt_name.getText();
-                String section = stdnt_section.getText();
-                String year = year_combo.getSelectedItem().toString();
-                String contactNo = stdnt_contact.getText();
-                int bookId = Integer.parseInt(book_id.getText());
-                String bookTitle = book_title.getText();
-                String bookIsbn = book_isbn.getText();
-                String bookCategory = book_category.getSelectedItem().toString();
-                Date borrowedDate = date_borrowed.getDate();
-
-                // Calculate due date
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(borrowedDate);
-                cal.add(Calendar.DAY_OF_YEAR, 3);
-                Date dueDate = cal.getTime();
-
-                String url = "jdbc:mysql://localhost:3306/librarydb";
-                String user = "root";
-                String password = "";
-
-                    String sql = "INSERT INTO student_borrowing (student_name, student_id, year, section, contact_no, book_id, book_title, book_isbn, book_category, date_borrowed, due_date) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-                try (Connection connection = DriverManager.getConnection(url, user, password);
-                PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-               // Retrieve the book status and category
-               String status = bookDAO.getBookStatus(bookId);
-               String category = bookDAO.getBookCategory(bookId);
-
-               if (category.equals("Academic")) {
-                   // Academic books cannot be borrowed
-                   JOptionPane.showMessageDialog(this, "Academic books are only allowed inside the library.", "Borrowing Restricted", JOptionPane.WARNING_MESSAGE);
-               } else if (status.equals("Available")) {
-                   // Proceed with borrowing
-                   pstmt.setString(1, studentName);
-                   pstmt.setString(2, studentId);
-                   pstmt.setString(3, year);
-                   pstmt.setString(4, section);
-                   pstmt.setString(5, contactNo);
-                   pstmt.setInt(6, bookId);
-                   pstmt.setString(7, bookTitle);
-                   pstmt.setString(8, bookIsbn);
-                   pstmt.setString(9, bookCategory);
-                   pstmt.setDate(10, new java.sql.Date(borrowedDate.getTime()));
-                   pstmt.setDate(11, new java.sql.Date(dueDate.getTime()));
-
-                   pstmt.executeUpdate();
-                   JOptionPane.showMessageDialog(this, "Borrowing details submitted successfully!");
-
-                   // Set status based on borrowing date
-                   Date today = new Date();
-                   boolean sameDay = borrowedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                                      .equals(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-                   String newStatus = sameDay ? "Borrowed" : "Reserved";
-
-                   // Update book status
-                   bookDAO.updateBookStatus(bookId, newStatus);
-               } else {
-                   // Book is not available for borrowing
-                   JOptionPane.showMessageDialog(this, "This book is not available for borrowing.", "Book Unavailable", JOptionPane.WARNING_MESSAGE);
-               }
-
-           } catch (SQLException e) {
-               JOptionPane.showMessageDialog(this, "Error submitting borrowing details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-           }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error submitting borrowing details: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
             private boolean isStudentAtBorrowingLimit(String studentId) {
@@ -780,6 +814,36 @@ public class BookBorrowingPanel extends javax.swing.JPanel {
                 }
                 return false; // Return false by default if an error occurs
             }
+            
+   private boolean hasOverdueBooks(String studentId) {
+    String query = "SELECT COUNT(*) FROM student_borrowing WHERE student_id = ? AND due_date < CURDATE()";
+    try (Connection connection = DriverManager.getConnection(url, user, password);
+         PreparedStatement pstmt = connection.prepareStatement(query)) {
+        pstmt.setString(1, studentId);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                int overdueBooks = rs.getInt(1);
+                return overdueBooks > 0; // Returns true if the student has overdue books
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // Handle the exception appropriately
+    }
+    return false; // Return false by default if an error occurs
+}
+         
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
 
 
 

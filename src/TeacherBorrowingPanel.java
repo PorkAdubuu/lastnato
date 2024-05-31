@@ -2,6 +2,8 @@
 import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -18,6 +20,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.text.AbstractDocument;
 import org.apache.commons.lang3.StringUtils;
 
 public class TeacherBorrowingPanel extends javax.swing.JPanel {
@@ -60,9 +63,23 @@ public class TeacherBorrowingPanel extends javax.swing.JPanel {
         
         
         
+        AbstractDocument docId = (AbstractDocument) employer_id.getDocument();
+        docId.setDocumentFilter(new UpperCaseDocumentFilter());
         
+        // Set DocumentFilter for teacher_name
+        AbstractDocument docName = (AbstractDocument) teacher_name.getDocument();
+        docName.setDocumentFilter(new UpperCaseDocumentFilter());
         
-        
+
+         teacher_contact.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) {
+                    e.consume(); // Consume the event to prevent the character from being typed
+                }
+            }
+        });
         
         
         
