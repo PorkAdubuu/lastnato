@@ -332,6 +332,7 @@ public class BooklistPanel extends javax.swing.JPanel {
         fetchBooks();
         BookStatusUpdater.updateBookStatus();
         StudentListDAO studentListDAO = new StudentListDAO();
+        studentListDAO.updateStudentList();
         
         
         StudentListPanel studentListPanel = new StudentListPanel();

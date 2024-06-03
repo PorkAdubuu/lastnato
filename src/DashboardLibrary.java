@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 
 
@@ -142,6 +143,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
         borrowing_btn = new javax.swing.JLabel();
         returning_btn = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        logout_btn = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -468,6 +470,18 @@ public class DashboardLibrary extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(243, 243, 243));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        logout_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastnato/off-icon.png"))); // NOI18N
+        logout_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logout_btnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                logout_btnMouseEntered(evt);
+            }
+        });
+        jPanel2.add(logout_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 80, -1, -1));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 1370, 170));
 
         pack();
@@ -677,6 +691,21 @@ public class DashboardLibrary extends javax.swing.JFrame {
         returning_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }//GEN-LAST:event_returning_btnMouseEntered
 
+    private void logout_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout_btnMouseEntered
+        // TODO add your handling code here:
+        logout_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_logout_btnMouseEntered
+
+    private void logout_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout_btnMouseClicked
+        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to logout?", "Logout", JOptionPane.YES_NO_OPTION);
+    
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Close the application
+            System.exit(0);
+        }
+    }//GEN-LAST:event_logout_btnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -762,6 +791,7 @@ public class DashboardLibrary extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel logo;
+    private javax.swing.JLabel logout_btn;
     private javax.swing.JPanel panel_content;
     private javax.swing.JLabel returning_btn;
     private javax.swing.JTextField search_bar;

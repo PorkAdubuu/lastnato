@@ -33,7 +33,7 @@ public class BookStatusUpdater {
 
     private static void updateStudentBorrowingStatus(Connection connection, LocalDate currentDate) {
         // Query to retrieve borrowing records with due dates in the past or equal to current date
-        String query = "SELECT book_id FROM student_borrowing WHERE due_date <= ?";
+        String query = "SELECT book_id FROM student_borrowing WHERE date_borrowed <= ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setObject(1, currentDate);
             try (ResultSet rs = pstmt.executeQuery()) {
